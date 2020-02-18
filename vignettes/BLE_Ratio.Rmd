@@ -1,0 +1,142 @@
+---
+title: "BLE_Ratio"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{BLE_Ratio}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(BayesSampling)
+```
+
+
+# Application of the BLE to the Ratio estimator
+
+### (From chapter 3 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
+
+In many practical situations, it is possible to have information about an auxiliary variate $x_i$ (correlated with $y_i$) for all the population units, or at least for each unit in the sample, plus the population mean, $\bar X$. In practive, $x_i$ is often the value of $y_i$ at some previous time when a complete census was taken. This approach is used in situations where __the expected value and the variance of $y_i$ is proportional to $x_i$__, so in the BLE setup, we replace some hypotheses about the $y$'s with ones about the first two moments of the rate $y_i$/$x_i$. To the best of our knowledge, the new ratio estimator proposed below is a novel contribution in sampling survey theory.  
+
+The new ratio estimator is obtained as a particular case of model (2.4) and with the hypothesis of exchangeability, used in Bayes linear approach, applied to the rate $y_i$/$x_i$ for all $i = 1,..., N$ as described below:  
+ 
+\begin{equation}
+\tag{3.1}
+
+E \left( \frac{y_i}{x_i} \right) = m,   \hspace{0.7cm}
+V \left( \frac{y_i}{x_i} \right) = v 
+\hspace{0.7cm} \text{and} \hspace{0.7cm}
+Cov \left( \frac{y_i}{x_i},\frac{y_j}{x_j} \right) = c, \hspace{0.5cm} 
+i,j = 1,...,N \hspace{0.5cm} \forall i \neq j
+
+\end{equation}  
+\par
+
+
+  
+### Application
+
+We can apply this with the _BLE_Ratio()_ function, which receives the following parameters:  
+
+* $y_s$ - a vector containing the observed values;
+* $x_s$ - a vector containing the values for the auxiliary variable of the elements in the sample;
+* $x_{\bar{s}}$ - a vector containing the values for the auxiliary variable of the elements not in the sample;
+* $m$ - prior mean for the ratio between $Y$ and $X$. If NULL, $\bar{y_s}$/$\bar{x_s}$ will be used (non-informative prior);
+* $v$ - prior variance of the ratio between $Y$ and $X$ ($> \sigma^2$). If NULL, it will tend to infinity (non-informative prior);
+* $\sigma$ - prior estimate of variability (standard deviation) of the ratio within the population. If NULL, sample variance of the ratio will be used.
+
+
+### Vague Prior Distribuition
+
+Letting $v \to \infty$ and $v \to \infty$, but keeping $\sigma^2$ fixed, that is, assuming prior ignorance, we recover the ratio type estimator, found in the disgn-baes approach: $\hat{T}_{ra} = N \bar{X} (\bar{y}_s / \bar{x}_s)$.\  
+
+This can be achieved using the _BLE_SRS()_ function by omitting either the prior mean or the prior variance, that is:
+
+* $m = NULL$ - the ration bewteen sample means will be used as prior mean (deixo isso??)
+* $v = NULL$ - prior variance will tend to infinity
+
+
+
+### Examples
+
+1. We will use the TheachingSampling's BigCity dataset for this example (actually we have to take a sample of size $10000$ from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, using the Income as an auxiliary variable (suppose that we know its value for every individual, maybe from a census). After taking a simple random sample of 10 individuals, we want to estimate the expenditure/income ratio and the total expenditure, conjugating the sample information with an expert's expectation (a priori mean for the ratio will be $0.85$, that is, people from this city expend 85% of their income).  
+
+
+```{r ex 1, message=FALSE, warning=FALSE}
+data(BigCity)
+end <- dim(BigCity)[1]
+s <- seq(from = 1, to = end, by = 1)
+
+set.seed(5)
+samp <- sample(s, size = 10000, replace = FALSE)
+ordered_samp <- sort(samp)
+BigCity_red <- BigCity[ordered_samp,]
+
+Expend <- BigCity_red$Expenditure
+Income <- BigCity_red$Income
+
+sampl <- sample(seq(1,10000),size=10)
+ys <- Expend[sampl]
+xs <- Income[sampl]
+```
+  
+    
+The real ratio between expenditure and income will be the value we want to estimate. In this example we know its real value:  
+
+```{r ex 1.1}
+mean(Expend/Income)
+```
+
+
+Our design-based estimator for the mean would be the ratio between sample means:  
+  
+```{r ex 1.2}
+mean(ys)/mean(xs)
+```
+  
+  
+Applying the prior information about the ratio we can get a better estimate, especially in cases when only a small sample is available:  
+
+```{r ex 1.3}
+x_nots <- BigCity_red$Income[-sampl]
+
+Estimator <- BLE_Ratio(ys,xs,x_nots, m = 0.85, v = 0.24, sigma = sqrt(0.23998))
+
+Estimator$est.beta
+Estimator$Vest.beta
+Estimator$est.mean[1:4,]
+Estimator$Vest.mean[1:5,1:5]
+Estimator$est.tot
+```
+
+
+
+
+2. Example from the help page
+
+```{r ex 2}
+ys <- c(10,8,6)
+xs <- c(5,4,3.1)
+x_nots <- c(1,20,13,15,-5)
+m <- 2.5
+v <- 10
+sigma <- 2
+
+
+Estimator <- BLE_Ratio(ys,xs,x_nots,m,v,sigma)
+Estimator
+```
+
+
+
+
+
+
+

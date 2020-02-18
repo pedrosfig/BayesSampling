@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1562766488850.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1344355249",
+    "id" : "5EC9FB73",
+    "lastKnownWriteTime" : 1562721314,
+    "last_content_update" : 1562721314,
+    "path" : "C:/Users/usuario/Dropbox/ProjetoICPedro/pacotes/BayesSampling/R/BLE_RS.R",
+    "project_path" : "R/BLE_RS.R",
+    "properties" : {
+        "cursorPosition" : "105,43",
+        "scrollLine" : "75"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

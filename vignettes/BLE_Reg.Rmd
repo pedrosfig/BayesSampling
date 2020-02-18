@@ -1,0 +1,99 @@
+---
+title: "BLE_Reg"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{BLE_Reg}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(BayesSampling)
+```
+
+# Bayes linear approach to finite population  
+
+### (From chapter 2.2 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
+
+Consider $U = \{u_1, ..., u_N \}$ a finite population with $N$ units. Let $y = (y_1,..., y_N)'$ be the vector with 
+the values of interest of the units in $U$. The response vector $y$ is  partitioned into the known observed $n$ - sample vector $y_s$, and the non-observed vector $y_{\bar{s}}$ of dimension $N - n$. The general problem is to predict a function of the vector $y$, such as the total $T = \sum_{i=1}^{N}y_i = 1^{'}_{s} y_s + 1^{'}_{\bar{s}} y_{\bar{s}}$, where $1_s$ and $1_{\bar{s}}$ are the vectors of 1's of dimensions $n$ and $N - n$, respectively. In the model-based approach, this is usually done by assuming a parametric model for the population values $y_i$’s and then obtaining the Empirical Best Linear Unbiased Predictor (EBLUP) for the unknown vector $y_s$ under this model. Usually, the mean square error of the EBLUP of T is obtained by second order approximation, as well as an unbiased estimator of it. See Valliant, Dorfman and Royall (2000), chapter 2, for details.  \par
+
+The Bayesian approach to finite population prediction often assumes a parametric model, but it aims to find the posterior distribution of T given $y_s$. Point estimates can be obtained by setting a loss function, although in many practical problems, the posterior mean is often considered and its associated variance is given by the posterior variance, i.e.:   
+
+\begin{equation}
+\tag{2.3}
+
+E(T | y_s) = 1^{'}_s y_s + 1^{'}_{\bar{s}} E(y_{\bar{s}} | y_s)   \hspace{0.7cm} \text{and} \hspace{0.7cm}
+	V(T | y_s) = 1^{'}_{\bar{s}} V(y_{\bar{s}} | y_s) 1_{\bar{s}}
+
+\end{equation}
+  
+It is possible to obtain an approximation to the quantities in (2.3) by using a Bayes linear estimation approach. Here, we will particularly obtain the estimators by assuming a __general two-stage hierarchical model for finite population, specified only by its mean and variance-covariance matrix__, presented in Bolfarine and Zacks (1992), page 76. Particular cases describing usual population structures found in practice are easily derived from (2.4). The general model can be written as:    
+
+\begin{equation}
+\tag{2.4}
+
+Y \hspace{0.1cm} | \hspace{0.1cm} \beta \sim [X \beta, V] 
+\hspace{0.7cm} \text{and} \hspace{0.7cm}
+\beta \sim [a,R]
+
+\end{equation}
+
+where $X$ is a covariate matrix of dimension $N \times p$, with rows $X_i = (x_{i1}, ..., x_{ip})$, $i = 1, ..., N$;  
+$\beta = (\beta_1, ..., \beta_p)'$ is a $p \times 1$ vector ofunknown parameters; and $y$, given $\beta$, is a random vector with mean $X\beta$ and known covariance matrix $V$ os dimension $N \times N$. Analogously $a$ and $R$ are the respective $p \times 1$ prior mean vector and $p \times p$ prior covariance matrix of $\beta$.  
+
+Since the response vector $y$ is partitioned into $y_s$ and $y_\bar{s}$, the matrix $X$, which is assumed to be known, is analogously partitioned into $X_s$ and $X_\bar{s}$, and $V$ is partitioned into $V_s$, $V_\bar{s}$, $V_{s \bar{s}}$ and $V_{\bar{s} s}$. The first aim is to predict $y_\bar{s}$ given the observed sample $y_s$ and then the total $T$. We did this in the following steps: first, we used a joint prior distribution that is only partially specified in terms of moments, as follows:
+
+\begin{equation}
+
+\begin{pmatrix}
+	y_{\bar{s}}\\
+	y_s
+	\end{pmatrix}  \Big| \beta \hspace{0.1cm} \sim \hspace{0.1cm} \begin{bmatrix}
+	\begin{pmatrix}
+	X_{\bar{s}} \beta\\
+	X_s \beta
+	\end{pmatrix},\begin{pmatrix}
+	V_{\bar{s}} & V_{\bar{s} s}\\
+	V_{s \bar{s}} & V_s
+	\end{pmatrix}
+	\end{bmatrix}
+
+\end{equation}
+
+  
+([...](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886))
+
+
+### Application
+
+The _BLE_Reg()_ function will apply this metodology to the given sample, calculate the Bayes Linear Estimator (and its associate variance) to the parameter $\beta$ and for the individuals not in the sample, given the auxiliary variable values. In a simple model the auxiliary variable will have value $1$ for every individual. 
+
+
+
+
+#### Examples
+
+1. Example from the help page
+
+```{r ex 1}
+xs <- matrix(c(1,1,1,1,2,3,5,0),nrow=4,ncol=2)
+ys <- c(12,17,28,2)
+x_nots <- matrix(c(1,1,1,0,1,4),nrow=3,ncol=2)
+a <- c(1.5,6)
+R <- matrix(c(10,2,2,10),nrow=2,ncol=2)
+Vs <- diag(c(1,1,1,1))
+V_nots <- diag(c(1,1,1))
+
+Estimator <- BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots)
+Estimator
+```
+
+

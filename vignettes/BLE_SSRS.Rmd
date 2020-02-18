@@ -1,0 +1,129 @@
+---
+title: "BLE_SSRS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{BLE_SSRS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(BayesSampling)
+```
+
+
+# Application of the BLE to the Stratified Simple Random Sample design  
+
+### (From chapter 2.3.2 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
+
+In a simple model, where there is no auxiliary variable, and a Stratified Simple Random Sample was taken from the population, we can calculate the Bayes Linear Estimator for the individuals of each strata of the population with the _BLE_SSRS()_ function, which receives the following parameters:  
+
+* $y_s$ - a vector containing the observed values (aggregated by strata);
+* $h$ - a vector containing the number of observations of each strata in the sample;
+* $N$ - a vector containing the total size of each strata;
+* $m$ - a vector containing the prior mean of each strata. If NULL, sample mean for each strata will be used (non-informative prior);
+* $v$ - a vector containing the prior variance of an element from each strata ($v_i> \sigma_i^2$ for each strata $i$). If NULL, it will tend to infinity (non-informative prior);
+* $\sigma$ - a vector containing the prior estimate of variability (standard deviation) within each strata. If NULL, sample variance of each strata will be used.
+
+
+
+
+
+### Examples
+
+1. We will use the TheachingSampling's BigCity dataset for this example (actually we have to take a sample of size $10000$ from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, but we know that there is a difference  between the rural individuals expenditure mean and the urban ones. After taking a stratified simple random sample of 30 individuals from each area, we want to estimate the real expenditure means, conjugating the sample information with an expert expectation (a priori mean will be $280$ for the rural area and $420$ for the urban).  
+
+
+```{r ex 1, message=FALSE, warning=FALSE}
+data(BigCity)
+end <- dim(BigCity)[1]
+s <- seq(from = 1, to = end, by = 1)
+
+set.seed(3)
+samp <- sample(s, size = 10000, replace = FALSE)
+ordered_samp <- sort(samp)
+BigCity_red <- BigCity[ordered_samp,]
+
+Rural <- BigCity_red[which(BigCity_red$Zone == "Rural"),]
+Rural_Exp <- Rural$Expenditure
+length(Rural_Exp)
+
+Rural_ys <- sample(Rural_Exp, size = 30, replace = FALSE)
+
+Urban <- BigCity_red[which(BigCity_red$Zone == "Urban"),]
+Urban_Exp <- Urban$Expenditure
+length(Urban_Exp)
+
+Urban_ys <- sample(Urban_Exp, size = 30, replace = FALSE)
+```
+  
+    
+The real expenditure means will be the values we want to estimate. In this example we know their real values:  
+
+```{r ex 1.1}
+mean(Rural_Exp)
+mean(Urban_Exp)
+```
+
+
+Our design-based estimator for the mean will be the sample mean for each strata:  
+  
+```{r ex 1.2}
+mean(Rural_ys)
+mean(Urban_ys)
+```
+  
+  
+Applying the prior information about the population we can get a better estimate, especially in cases when only a small sample is available:  
+
+```{r ex 1.3}
+ys <- c(Rural_ys, Urban_ys)
+h <- c(30,30)
+N <- c(length(Rural_Exp), length(Urban_Exp))
+m <- c(280, 420)
+v=c(4*(10.1^4), 10.1^5)
+sigma = c(sqrt(4*10^4), sqrt(10^5))
+
+Estimator <- BLE_SSRS(ys,h,N,m,v,sigma)
+```
+
+  
+Our Bayes Linear Estimator for the mean expenditure of each strata:  
+
+```{r ex 1.4}
+Estimator$est.beta
+Estimator$Vest.beta
+```
+
+
+
+
+
+2. Example from the help page
+
+```{r ex 2}
+ys <- c(2,-1,1.5, 6,10, 8,8)
+h <- c(3,2,2)
+m <- c(0,9,8)
+v <- c(3,8,1)
+sigma <- c(1,2,0.5)
+N <- c(5,5,3)
+
+
+Estimator <- BLE_SSRS(ys,h,N,m,v,sigma)
+Estimator
+```
+
+
+
+
+
+
+

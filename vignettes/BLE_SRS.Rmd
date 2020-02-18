@@ -1,0 +1,98 @@
+---
+title: "BLE_SRS"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{BLE_SRS}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(BayesSampling)
+```
+
+# Application of the BLE to the Simple Random Sample design  
+
+### (From chapter 2.3.1 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
+
+In a simple model, where there is no auxiliary variable, and a Simple Random Sample was taken from the population, we can calculate the Bayes Linear Estimator for the individuals of the population with the _BLE_SRS()_ function, which receives the following parameters:  
+
+* $y_s$ - a vector containing the observed values;
+* $N$ - total size of the population;
+* $m$ - prior mean. If NULL, sample mean will be used (non-informative prior);
+* $v$ - prior variance of an element from the population ($> \sigma^2$). If NULL, it will tend to infinity (non-informative prior);
+* $\sigma$ - prior estimate of variability (standard deviation) within the population. If NULL, sample variance will be used.
+
+
+### Vague Prior Distribuition
+
+Letting $v \to \infty$ and keeping $\sigma^2$ fixed, that is, assuming prior ignorance, the resulting estimator will be the same as the one seen in the disgn-based context for the simple random sampling case.\  
+
+This can be achieved using the _BLE_SRS()_ function by omitting either the prior mean and/or the prior variance, that is:
+
+* $m = NULL$ - the sample mean will be used;
+* $v = NULL$ - prior variance will tend to infinity.
+
+
+### Examples
+
+1. We will use the TheachingSampling's BigCity dataset for this example (actually we have to take a sample of size $10000$ from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, after taking a simple random sample of only 20 individuals, but applying a prior information (taken from a previous study or an expert's judgment) about the mean expenditure (a priori mean = $300$).
+
+
+```{r ex 1, message=FALSE, warning=FALSE}
+data(BigCity)
+set.seed(1)
+Expend <- sample(BigCity$Expenditure,10000)
+mean(Expend)          #Real mean expenditure value, goal of the estimation
+ys <- sample(Expend, size = 20, replace = FALSE)
+```
+  
+  
+Our design-based estimator for the mean will be the sample mean:
+
+```{r ex 1.1}
+mean(ys)
+```
+  
+
+Applying the prior information about the population we can get a better estimate, especially in cases when only a small sample is available:
+
+```{r ex 1.2}
+Estimator <- BLE_SRS(ys, N = 10000, m=300, v=10.1^5, sigma = sqrt(10^5))
+
+Estimator$est.beta
+Estimator$Vest.beta
+Estimator$est.mean[1,]
+Estimator$Vest.mean[1:5,1:5]
+```
+
+
+
+
+
+2. Example from the help page
+
+```{r ex 2}
+ys <- c(5,6,8)
+m <- 6
+v <- 5
+sigma <- 1
+N <- 5
+
+Estimator <- BLE_SRS(ys,N,m,v,sigma)
+Estimator
+```
+
+
+
+
+
+
+

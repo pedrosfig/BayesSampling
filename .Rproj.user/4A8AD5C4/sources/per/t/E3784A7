@@ -1,0 +1,25 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1581687072845.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1651205665",
+    "id" : "E3784A7",
+    "lastKnownWriteTime" : 1581687331,
+    "last_content_update" : 1581687331303,
+    "path" : "~/UFRJ/IC/1-Meu_Pacote/BayesSampling/R/BLE_Reg.R",
+    "project_path" : "R/BLE_Reg.R",
+    "properties" : {
+        "cursorPosition" : "5,24",
+        "scrollLine" : "80"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

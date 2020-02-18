@@ -1,0 +1,31 @@
+#' Gerar dados:
+
+set.seed(6)
+Beta = c(17,3,-4)  #beta0, beta1 e beta2 respect.
+sigma <- sqrt(23)
+p = length(Beta)
+n = 100
+x0 = as.vector(matrix(1,ncol=n))  #ou nrow=p
+x1 = runif(n,-10,20)
+x2 = runif(n,50,300)
+erro = rnorm(n,0,sigma)
+
+X <- cbind(x0,x1,x2)
+XBeta <- X%*%Beta
+Y <- XBeta + erro
+nome <- c("saldo","tempo","peso" )
+
+Dados <- cbind(Y,X[,2:3])
+Dados1 <- rbind(nome,Dados)
+
+Dados
+Dados1
+as.numeric(Dados1)
+
+#pacote: usethis::use_data(Dados)
+
+#Não preciso disso pro pacote
+write.table(Dados,"DadosReg.txt")
+teste <- read.table("DadosReg.txt")
+teste
+Dados

@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1562767658739.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "1523132344",
+    "id" : "72E9112",
+    "lastKnownWriteTime" : 1547936449,
+    "last_content_update" : 1547936449,
+    "path" : "C:/Users/usuario/Dropbox/ProjetoICPedro/pacotes/BayesSampling/data-raw/dados.R",
+    "project_path" : "data-raw/dados.R",
+    "properties" : {
+        "cursorPosition" : "3,15",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
