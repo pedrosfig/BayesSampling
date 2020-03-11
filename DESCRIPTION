@@ -2,7 +2,7 @@ Package: BayesSampling
 Type: Package
 Title: Bayes Linear Estimators for Finite Population
 Version: 0.1.0
-Date: '2020-02-30'
+Date: '2020-03-31'
 Author: Kelly Cristina Mota Gonçalves, Pedro Soares Figueiredo
 Maintainer: Kelly Cristina Mota Gonçalves <kelly@dme.ufrj.br> , Pedro Soares Figueiredo <pedrosfig@homtail.com>
 Description: Allows the user to apply the Bayes Linear aproach to finite population with the Simple Random Sampling - SRS() - and the 
