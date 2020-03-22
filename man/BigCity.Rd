@@ -6,7 +6,7 @@
 \title{Full Person-level Population Database}
 \format{An object of class \code{data.frame} with 150266 rows and 12 columns.}
 \source{
-\url{https://cran.r-project.org/web/packages/TeachingSampling/TeachingSampling.pdf}
+\url{https://CRAN.R-project.org/package=TeachingSampling}
 }
 \usage{
 data(BigCity)

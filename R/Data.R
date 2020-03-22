@@ -8,6 +8,6 @@
 #'
 #' @references Package ‘TeachingSampling’; see \code{\link[TeachingSampling]{BigCity}}
 #'
-#' @source \url{https://cran.r-project.org/web/packages/TeachingSampling/TeachingSampling.pdf}
+#' @source \url{https://CRAN.R-project.org/package=TeachingSampling}
 #'
 "BigCity"
