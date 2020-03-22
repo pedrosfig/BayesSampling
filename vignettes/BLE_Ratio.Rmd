@@ -23,7 +23,7 @@ library(BayesSampling)
 
 ### (From chapter 3 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
 
-In many practical situations, it is possible to have information about an auxiliary variate $x_i$ (correlated with $y_i$) for all the population units, or at least for each unit in the sample, plus the population mean, $\bar X$. In practive, $x_i$ is often the value of $y_i$ at some previous time when a complete census was taken. This approach is used in situations where __the expected value and the variance of $y_i$ is proportional to $x_i$__, so in the BLE setup, we replace some hypotheses about the $y$'s with ones about the first two moments of the rate $y_i$/$x_i$. To the best of our knowledge, the new ratio estimator proposed below is a novel contribution in sampling survey theory.  
+In many practical situations, it is possible to have information about an auxiliary variate $x_i$ (correlated with $y_i$) for all the population units, or at least for each unit in the sample, plus the population mean, $\bar X$. In practice, $x_i$ is often the value of $y_i$ at some previous time when a complete census was taken. This approach is used in situations where __the expected value and the variance of $y_i$ is proportional to $x_i$__, so in the BLE setup, we replace some hypotheses about the $y$'s with ones about the first two moments of the rate $y_i$/$x_i$. To the best of our knowledge, the new ratio estimator proposed below is a novel contribution in sampling survey theory.  
 
 The new ratio estimator is obtained as a particular case of model (2.4) and with the hypothesis of exchangeability, used in Bayes linear approach, applied to the rate $y_i$/$x_i$ for all $i = 1,..., N$ as described below:  
  
@@ -53,13 +53,13 @@ We can apply this with the _BLE_Ratio()_ function, which receives the following 
 * $\sigma$ - prior estimate of variability (standard deviation) of the ratio within the population. If NULL, sample variance of the ratio will be used.
 
 
-### Vague Prior Distribuition
+### Vague Prior Distribution
 
-Letting $v \to \infty$ and $v \to \infty$, but keeping $\sigma^2$ fixed, that is, assuming prior ignorance, we recover the ratio type estimator, found in the disgn-baes approach: $\hat{T}_{ra} = N \bar{X} (\bar{y}_s / \bar{x}_s)$.\  
+Letting $v \to \infty$ and $v \to \infty$, but keeping $\sigma^2$ fixed, that is, assuming prior ignorance, we recover the ratio type estimator, found in the design-based approach: $\hat{T}_{ra} = N \bar{X} (\bar{y}_s / \bar{x}_s)$.\  
 
 This can be achieved using the _BLE_SRS()_ function by omitting either the prior mean or the prior variance, that is:
 
-* $m = NULL$ - the ration bewteen sample means will be used as prior mean (deixo isso??)
+* $m = NULL$ - the ratio between sample means will be used as prior mean 
 * $v = NULL$ - prior variance will tend to infinity
 
 

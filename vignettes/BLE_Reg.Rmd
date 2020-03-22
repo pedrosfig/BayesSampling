@@ -47,7 +47,7 @@ Y \hspace{0.1cm} | \hspace{0.1cm} \beta \sim [X \beta, V]
 \end{equation}
 
 where $X$ is a covariate matrix of dimension $N \times p$, with rows $X_i = (x_{i1}, ..., x_{ip})$, $i = 1, ..., N$;  
-$\beta = (\beta_1, ..., \beta_p)'$ is a $p \times 1$ vector ofunknown parameters; and $y$, given $\beta$, is a random vector with mean $X\beta$ and known covariance matrix $V$ os dimension $N \times N$. Analogously $a$ and $R$ are the respective $p \times 1$ prior mean vector and $p \times p$ prior covariance matrix of $\beta$.  
+$\beta = (\beta_1, ..., \beta_p)'$ is a $p \times 1$ vector of unknown parameters; and $y$, given $\beta$, is a random vector with mean $X\beta$ and known covariance matrix $V$ of dimension $N \times N$. Analogously $a$ and $R$ are the respective $p \times 1$ prior mean vector and $p \times p$ prior covariance matrix of $\beta$.  
 
 Since the response vector $y$ is partitioned into $y_s$ and $y_\bar{s}$, the matrix $X$, which is assumed to be known, is analogously partitioned into $X_s$ and $X_\bar{s}$, and $V$ is partitioned into $V_s$, $V_\bar{s}$, $V_{s \bar{s}}$ and $V_{\bar{s} s}$. The first aim is to predict $y_\bar{s}$ given the observed sample $y_s$ and then the total $T$. We did this in the following steps: first, we used a joint prior distribution that is only partially specified in terms of moments, as follows:
 
@@ -74,7 +74,7 @@ Since the response vector $y$ is partitioned into $y_s$ and $y_\bar{s}$, the mat
 
 ### Application
 
-The _BLE_Reg()_ function will apply this metodology to the given sample, calculate the Bayes Linear Estimator (and its associate variance) to the parameter $\beta$ and for the individuals not in the sample, given the auxiliary variable values. In a simple model the auxiliary variable will have value $1$ for every individual. 
+The _BLE_Reg()_ function will apply this methodology to the given sample, calculate the Bayes Linear Estimator (and its associate variance) to the parameter $\beta$ and for the individuals not in the sample, given the auxiliary variable values. In a simple model the auxiliary variable will have value $1$ for every individual. 
 
 
 
