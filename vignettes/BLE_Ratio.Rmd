@@ -21,7 +21,7 @@ library(BayesSampling)
 
 # Application of the BLE to the Ratio estimator
 
-### (From chapter 3 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
+### (From Section 3 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
 
 In many practical situations, it is possible to have information about an auxiliary variate $x_i$ (correlated with $y_i$) for all the population units, or at least for each unit in the sample, plus the population mean, $\bar X$. In practice, $x_i$ is often the value of $y_i$ at some previous time when a complete census was taken. This approach is used in situations where __the expected value and the variance of $y_i$ is proportional to $x_i$__, so in the BLE setup, we replace some hypotheses about the $y$'s with ones about the first two moments of the rate $y_i$/$x_i$. To the best of our knowledge, the new ratio estimator proposed below is a novel contribution in sampling survey theory.  
 
@@ -35,11 +35,11 @@ V \left( \frac{y_i}{x_i} \right) = v
 \hspace{0.7cm} \text{and} \hspace{0.7cm}
 Cov \left( \frac{y_i}{x_i},\frac{y_j}{x_j} \right) = c, \hspace{0.5cm} 
 i,j = 1,...,N \hspace{0.5cm} \forall i \neq j
-
 \end{equation}  
 \par
 
-
+such that: $\sigma^2 = v - c$
+  
   
 ### Application
 

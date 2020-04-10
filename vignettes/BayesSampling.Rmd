@@ -87,11 +87,14 @@ where $a$ and $f$, respectively, denote mean vectors and $R$, $AQ$ and $Q$ the c
 
 
   __It should be noted that the BLE depends on the specification of the first and second moments of the joint distribution__ partially specified in (2.1).
-
+  
+  From the Bayes linear approach applied to the general linear regression model for finite population prediction, the paper shows how to obtain some particular design-based estimators, as in simple random sampling and stratified simple random sampling.
 
 
 ## 3. Functions
-
+  
+The package contain the main following functions:  
+  
 * BLE_Reg() - general function (base for the rest of the functions)
 * BLE_SRS() - Simple Random Sample case
 * BLE_SSRS() - Stratified Simple Random Sample case

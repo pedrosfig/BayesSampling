@@ -20,7 +20,7 @@ library(BayesSampling)
 
 # Bayes linear approach to finite population  
 
-### (From chapter 2.2 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
+### (From Section 2.2 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
 
 Consider $U = \{u_1, ..., u_N \}$ a finite population with $N$ units. Let $y = (y_1,..., y_N)'$ be the vector with 
 the values of interest of the units in $U$. The response vector $y$ is  partitioned into the known observed $n$ - sample vector $y_s$, and the non-observed vector $y_{\bar{s}}$ of dimension $N - n$. The general problem is to predict a function of the vector $y$, such as the total $T = \sum_{i=1}^{N}y_i = 1^{'}_{s} y_s + 1^{'}_{\bar{s}} y_{\bar{s}}$, where $1_s$ and $1_{\bar{s}}$ are the vectors of 1's of dimensions $n$ and $N - n$, respectively. In the model-based approach, this is usually done by assuming a parametric model for the population values $y_i$’s and then obtaining the Empirical Best Linear Unbiased Predictor (EBLUP) for the unknown vector $y_s$ under this model. Usually, the mean square error of the EBLUP of T is obtained by second order approximation, as well as an unbiased estimator of it. See Valliant, Dorfman and Royall (2000), chapter 2, for details.  \par

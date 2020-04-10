@@ -20,7 +20,7 @@ library(BayesSampling)
 
 # Application of the BLE to the Simple Random Sample design  
 
-### (From chapter 2.3.1 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
+### (From Section 2.3.1 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
 
 In a simple model, where there is no auxiliary variable, and a Simple Random Sample was taken from the population, we can calculate the Bayes Linear Estimator for the individuals of the population with the _BLE_SRS()_ function, which receives the following parameters:  
 
