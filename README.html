@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>BayesSampling</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">BayesSampling</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(BayesSampling)</a></code></pre></div>
+<div id="bayes-linear-estimation-for-finite-population" class="section level1">
+<h1>Bayes linear estimation for finite population</h1>
+<div id="from-gonçalves-moura-and-migon-bayes-linear-estimation-for-finite-population-with-emphasis-on-categorical-data" class="section level3">
+<h3>(From “<a href="https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886">Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data</a>”)</h3>
+</div>
+<div id="introduction" class="section level2">
+<h2>1. Introduction</h2>
+<p>Surveys have long been an important way of obtaining accurate information from a finite population. For instance, governments need to obtain descriptive statistics of the population for purposes of evaluating and implementing their policies. For those concerned with official statistics in the first third of the twentieth century, the major issue was to establish a standard of acceptable practice. Neyman (1934) created such a framework by introducing the role of randomization methods in the sampling process. He advocated the use of the randomization distribution induced by the sampling design to evaluate the frequentist properties of alternative procedures. He also introduced the idea of stratification with optimal sample size allocation and the use of unequal selection probabilities. His work was recognized as the cornerstone of design-based sample survey theory and inspired many other authors. For example, Horvitz and Thompson (1952) proposed a general theory of unequal probability sampling and the probability weighted estimation method, the so-called “Horvitz and Thompson’s estimator”.<br />
+</p>
+<p>The design-based sample survey theory has been very appealing to official statistics agencies around the world. As pointed out by Skinner, Holt and Smith (1989), page 2, the main reason is that it is essentially distribution-free. Indeed, all advances in survey sampling theory from Neyman onwards have been strongly influenced by the descriptive use of survey sampling. The consequence of this has been a lack of theoretical developments related to the analytic use of surveys, in particular for prediction purposes. <strong>In some specific situations, the design-based approach has proved to be inefficient, providing inadequate predictors. For instance, estimation in small domains and the presence of the non-response cannot be dealt with by the design-based approach without some implicit assumptions, which is equivalent to assuming a model.</strong> Supporters of the design-based approach argue that model-based inference largely depends on the model assumptions, which might not be true. On the other hand, interval inference for target population parameters (usually totals or means) relies on the Central Limit Theorem, which cannot be applied in many practical situations, where the sample size is not large enough and/or independence assumptions of the random variables involved are not realistic. </p>
+<p>Basu (1971) did not accept estimates of population quantities which depend on the sampling rule, like the inclusion probabilities. He argued that this estimation procedure does not satisfy the likelihood principle, at which he was adept. Basu (1971) created the circus elephant example to show that the Horvitz-Thompson estimator could lead to inappropriate estimates and proposed an alternative estimator. The question that arises is whether it is possible to conciliate both approaches. In the superpopulation model context, Zacks (2002) showed that some design-based estimators can be recovered by using a general regression model approach. Little (2003) claims that: “careful model specification sensitive to the survey design can address the concerns with model specifications, and Bayesian statistics provide a coherent and unified treatment of descriptive and analytic survey inference”. He gave some illustrative examples of how <strong>standard design-based inference can be derived from the Bayesian perspective, using some models with non-informative prior distributions.</strong> </p>
+<p>In the Bayesian context, another appealing proposal to conciliate the design-based and model-based approaches was proposed by Smouse (1984). The method incorporates prior information in finite population inference models by relying on Bayesian least squares techniques and requires only the specification of first and second moments of the distributions involved, describing prior knowledge about the structures present in the population. The approach is an alternative to the methods of randomization and appears midway between two extreme views: on the one hand the design-based procedures and on the other those based on superpopulation models. O’Hagan (1985), in an unpublished report, presented the Bayes linear estimators in some specific sample survey contexts and O’Hagan (1987) also derived Bayes linear estimators for some randomized response models. O’Hagan (1985) dealt with several population structures, such as stratification and clustering, by assuming suitable hypotheses about the first and second moments and showed how some common design-based estimators can be obtained as a particular case of his more general approach. He also pointed out that his estimates do not account for non-informative sampling. He quoted Scott (1977) and commented that informative sampling should be carried out by a full Bayesian analysis. An important reference about informative sampling dealing with hierarchical models can be found in Pfeffermann, Moura and Silva (2006).<br />
+</p>
+</div>
+<div id="bayes-linear-estimation-for-finite-population-1" class="section level2">
+<h2>2. Bayes linear estimation for finite population</h2>
+<p>The Bayes approach has been found to be successful in many applications, particularly when the data analysis has been improved by expert judgments. But while Bayesian models have many appealing features, their application often involves the full specification of a prior distribution for a large number of parameters. Goldstein and Wooff (2007), section 1.2, argue that as the complexity of the problem increases, our actual ability to fully specify the prior and/or the sampling model in detail is impaired. They conclude that in such situations, there is a need to develop methods based on partial belief specification.<br />
+</p>
+<p>Hartigan (1969) proposed an estimation method, termed <strong>Bayes linear estimation approach, that only requires the specification of first and second moments</strong>. The resulting estimators have the property of minimizing posterior squared error loss among all estimators that are linear in the data and <strong>can be thought of as approximations to posterior means</strong>. The Bayes linear estimation approach is fully employed in this article and is briefly described below.<br />
+</p>
+<div id="bayes-linear-approach" class="section level3">
+<h3>2.1 Bayes linear approach</h3>
+<p>Let <span class="math inline">\(y_s\)</span> be the vector with observations and <span class="math inline">\(\theta\)</span> be the parameter to be estimated. For each value of <span class="math inline">\(\theta\)</span> and each possible estimate <span class="math inline">\(d\)</span>, belonging to the parametric space <span class="math inline">\(\Theta\)</span>, we associate a quadratic loss function <span class="math inline">\(L(\theta, d) = (\theta - d)&#39; (\theta - d) = tr (\theta - d) (\theta - d)&#39;\)</span>. The main interest is to find the value of <span class="math inline">\(d\)</span> that minimizes <span class="math inline">\(r(d) = E [L (\theta, d) | y_s]\)</span>, the conditional expected value of the quadratic loss function given the data.<br />
+</p>
+<p>Suppose that the joint distribution of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(y_s\)</span> is partially specified by only their first two moments:</p>
+<p><span class="math display">\[\begin{equation}
+\tag{2.1}
+
+\begin{pmatrix}
+    \theta\\
+    y_s
+    \end{pmatrix} \hspace{0.1cm} \sim \hspace{0.1cm} \begin{bmatrix}
+    \begin{pmatrix}
+    a\\
+    \text{f}
+    \end{pmatrix},\begin{pmatrix}
+    R &amp; AQ\\
+    QA^{&#39;} &amp; Q
+    \end{pmatrix}
+    \end{bmatrix}  
+
+\end{equation}\]</span></p>
+<p>where <span class="math inline">\(a\)</span> and <span class="math inline">\(f\)</span>, respectively, denote mean vectors and <span class="math inline">\(R\)</span>, <span class="math inline">\(AQ\)</span> and <span class="math inline">\(Q\)</span> the covariance matrix elements of <span class="math inline">\(\theta\)</span> and <span class="math inline">\(y_s\)</span>.<br />
+</p>
+<p>The Bayes linear estimator (BLE) of <span class="math inline">\(\theta\)</span> is the value of <span class="math inline">\(d\)</span> that minimizes the expected value of this quadratic loss function within the class of all linear estimates of the form <span class="math inline">\(d = d(y_s) = h + H y_s\)</span>, for some vector <span class="math inline">\(h\)</span> and matrix <span class="math inline">\(H\)</span>. Thus, the BLE of <span class="math inline">\(\theta\)</span>, <span class="math inline">\(\hat{d}\)</span>, and its associated variance, <span class="math inline">\(\hat{V} (\hat{d})\)</span>, are respectively given by:</p>
+<p><span class="math display">\[\begin{equation}
+\tag{2.2}
+
+\hat{d} = a + A(y_s - \text{f})
+\hspace{0.7cm} \text{and} \hspace{0.7cm}
+\hat{V}(\hat{d}) = R - AQA^{&#39;}
+
+\end{equation}\]</span></p>
+<p><strong>It should be noted that the BLE depends on the specification of the first and second moments of the joint distribution</strong> partially specified in (2.1).</p>
+</div>
+</div>
+<div id="functions" class="section level2">
+<h2>3. Functions</h2>
+<ul>
+<li>BLE_Reg() - general function (base for the rest of the functions)</li>
+<li>BLE_SRS() - Simple Random Sample case</li>
+<li>BLE_SSRS() - Stratified Simple Random Sample case</li>
+<li>BLE_Ratio() - Ratio Estimator case</li>
+</ul>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
