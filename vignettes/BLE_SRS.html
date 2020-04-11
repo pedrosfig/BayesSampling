@@ -306,8 +306,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(BayesSampling)</a></code></pre></div>
 <div id="application-of-the-ble-to-the-simple-random-sample-design" class="section level1">
 <h1>Application of the BLE to the Simple Random Sample design</h1>
-<div id="from-chapter-2.3.1-of-the-gonçalves-moura-and-migon-bayes-linear-estimation-for-finite-population-with-emphasis-on-categorical-data" class="section level3">
-<h3>(From chapter 2.3.1 of the “<a href="https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886">Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data</a>”)</h3>
+<div id="from-section-2.3.1-of-the-gonçalves-moura-and-migon-bayes-linear-estimation-for-finite-population-with-emphasis-on-categorical-data" class="section level3">
+<h3>(From Section 2.3.1 of the “<a href="https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886">Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data</a>”)</h3>
 <p>In a simple model, where there is no auxiliary variable, and a Simple Random Sample was taken from the population, we can calculate the Bayes Linear Estimator for the individuals of the population with the <em>BLE_SRS()</em> function, which receives the following parameters:</p>
 <ul>
 <li><span class="math inline">\(y_s\)</span> - a vector containing the observed values;</li>
@@ -329,7 +329,7 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="examples" class="section level3">
 <h3>Examples</h3>
 <ol style="list-style-type: decimal">
-<li>We will use the TheachingSampling’s BigCity dataset for this example (actually we have to take a sample of size <span class="math inline">\(10000\)</span> from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, after taking a simple random sample of only 20 individuals, but applying a prior information (taken from a previous study or an expert’s judgment) about the mean expenditure (a priori mean = <span class="math inline">\(300\)</span>).</li>
+<li>We will use the TeachingSampling’s BigCity dataset for this example (actually we have to take a sample of size <span class="math inline">\(10000\)</span> from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, after taking a simple random sample of only 20 individuals, but applying a prior information (taken from a previous study or an expert’s judgment) about the mean expenditure (a priori mean = <span class="math inline">\(300\)</span>).</li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">data</span>(BigCity)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw">set.seed</span>(<span class="dv">1</span>)</a>

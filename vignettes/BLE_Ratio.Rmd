@@ -66,7 +66,7 @@ This can be achieved using the _BLE_SRS()_ function by omitting either the prior
 
 ### Examples
 
-1. We will use the TheachingSampling's BigCity dataset for this example (actually we have to take a sample of size $10000$ from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, using the Income as an auxiliary variable (suppose that we know its value for every individual, maybe from a census). After taking a simple random sample of 10 individuals, we want to estimate the expenditure/income ratio and the total expenditure, conjugating the sample information with an expert's expectation (a priori mean for the ratio will be $0.85$, that is, people from this city expend 85% of their income).  
+1. We will use the TeachingSampling's BigCity dataset for this example (actually we have to take a sample of size $10000$ from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, using the Income as an auxiliary variable (suppose that we know its value for every individual, maybe from a census). After taking a simple random sample of 10 individuals, we want to estimate the expenditure/income ratio and the total expenditure, conjugating the sample information with an expert's expectation (a priori mean for the ratio will be $0.85$, that is, people from this city expend 85% of their income).  
 
 
 ```{r ex 1, message=FALSE, warning=FALSE}

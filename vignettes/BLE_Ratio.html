@@ -306,8 +306,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(BayesSampling)</a></code></pre></div>
 <div id="application-of-the-ble-to-the-ratio-estimator" class="section level1">
 <h1>Application of the BLE to the Ratio estimator</h1>
-<div id="from-chapter-3-of-the-gonçalves-moura-and-migon-bayes-linear-estimation-for-finite-population-with-emphasis-on-categorical-data" class="section level3">
-<h3>(From chapter 3 of the “<a href="https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886">Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data</a>”)</h3>
+<div id="from-section-3-of-the-gonçalves-moura-and-migon-bayes-linear-estimation-for-finite-population-with-emphasis-on-categorical-data" class="section level3">
+<h3>(From Section 3 of the “<a href="https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886">Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data</a>”)</h3>
 <p>In many practical situations, it is possible to have information about an auxiliary variate <span class="math inline">\(x_i\)</span> (correlated with <span class="math inline">\(y_i\)</span>) for all the population units, or at least for each unit in the sample, plus the population mean, <span class="math inline">\(\bar X\)</span>. In practice, <span class="math inline">\(x_i\)</span> is often the value of <span class="math inline">\(y_i\)</span> at some previous time when a complete census was taken. This approach is used in situations where <strong>the expected value and the variance of <span class="math inline">\(y_i\)</span> is proportional to <span class="math inline">\(x_i\)</span></strong>, so in the BLE setup, we replace some hypotheses about the <span class="math inline">\(y\)</span>’s with ones about the first two moments of the rate <span class="math inline">\(y_i\)</span>/<span class="math inline">\(x_i\)</span>. To the best of our knowledge, the new ratio estimator proposed below is a novel contribution in sampling survey theory.</p>
 <p>The new ratio estimator is obtained as a particular case of model (2.4) and with the hypothesis of exchangeability, used in Bayes linear approach, applied to the rate <span class="math inline">\(y_i\)</span>/<span class="math inline">\(x_i\)</span> for all <span class="math inline">\(i = 1,..., N\)</span> as described below:</p>
 <span class="math display">\[\begin{equation}
@@ -318,10 +318,10 @@ V \left( \frac{y_i}{x_i} \right) = v
 \hspace{0.7cm} \text{and} \hspace{0.7cm}
 Cov \left( \frac{y_i}{x_i},\frac{y_j}{x_j} \right) = c, \hspace{0.5cm} 
 i,j = 1,...,N \hspace{0.5cm} \forall i \neq j
-
 \end{equation}\]</span><br />
 
 
+<p>such that: <span class="math inline">\(\sigma^2 = v - c\)</span></p>
 </div>
 <div id="application" class="section level3">
 <h3>Application</h3>
@@ -347,7 +347,7 @@ i,j = 1,...,N \hspace{0.5cm} \forall i \neq j
 <div id="examples" class="section level3">
 <h3>Examples</h3>
 <ol style="list-style-type: decimal">
-<li>We will use the TheachingSampling’s BigCity dataset for this example (actually we have to take a sample of size <span class="math inline">\(10000\)</span> from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, using the Income as an auxiliary variable (suppose that we know its value for every individual, maybe from a census). After taking a simple random sample of 10 individuals, we want to estimate the expenditure/income ratio and the total expenditure, conjugating the sample information with an expert’s expectation (a priori mean for the ratio will be <span class="math inline">\(0.85\)</span>, that is, people from this city expend 85% of their income).</li>
+<li>We will use the TeachingSampling’s BigCity dataset for this example (actually we have to take a sample of size <span class="math inline">\(10000\)</span> from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, using the Income as an auxiliary variable (suppose that we know its value for every individual, maybe from a census). After taking a simple random sample of 10 individuals, we want to estimate the expenditure/income ratio and the total expenditure, conjugating the sample information with an expert’s expectation (a priori mean for the ratio will be <span class="math inline">\(0.85\)</span>, that is, people from this city expend 85% of their income).</li>
 </ol>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">data</span>(BigCity)</a>
 <a class="sourceLine" id="cb2-2" title="2">end &lt;-<span class="st"> </span><span class="kw">dim</span>(BigCity)[<span class="dv">1</span>]</a>

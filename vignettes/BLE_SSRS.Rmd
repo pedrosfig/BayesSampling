@@ -38,7 +38,7 @@ In a simple model, where there is no auxiliary variable, and a Stratified Simple
 
 ### Examples
 
-1. We will use the TheachingSampling's BigCity dataset for this example (actually we have to take a sample of size $10000$ from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, but we know that there is a difference  between the rural individuals expenditure mean and the urban ones. After taking a stratified simple random sample of 30 individuals from each area, we want to estimate the real expenditure means, conjugating the sample information with an expert expectation (a priori mean will be $280$ for the rural area and $420$ for the urban).  
+1. We will use the TeachingSampling's BigCity dataset for this example (actually we have to take a sample of size $10000$ from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, but we know that there is a difference  between the rural individuals expenditure mean and the urban ones. After taking a stratified simple random sample of 30 individuals from each area, we want to estimate the real expenditure means, conjugating the sample information with an expert expectation (a priori mean will be $280$ for the rural area and $420$ for the urban).  
 
 
 ```{r ex 1, message=FALSE, warning=FALSE}

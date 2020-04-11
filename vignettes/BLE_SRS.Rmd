@@ -43,7 +43,7 @@ This can be achieved using the _BLE_SRS()_ function by omitting either the prior
 
 ### Examples
 
-1. We will use the TheachingSampling's BigCity dataset for this example (actually we have to take a sample of size $10000$ from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, after taking a simple random sample of only 20 individuals, but applying a prior information (taken from a previous study or an expert's judgment) about the mean expenditure (a priori mean = $300$).
+1. We will use the TeachingSampling's BigCity dataset for this example (actually we have to take a sample of size $10000$ from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, after taking a simple random sample of only 20 individuals, but applying a prior information (taken from a previous study or an expert's judgment) about the mean expenditure (a priori mean = $300$).
 
 
 ```{r ex 1, message=FALSE, warning=FALSE}
