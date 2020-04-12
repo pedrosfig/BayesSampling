@@ -3,7 +3,7 @@ Type: Package
 Title: Bayes Linear Estimators for Finite Population
 Version: 1.0.0
 Date: 2020-04-30
-Authors@R: c(person("Pedro", "Soares", role = c("aut", "cre"),
+Authors@R: c(person("Pedro", "Soares Figueiredo", role = c("aut", "cre"),
                      email = "pedrosfig@hotmail.com"),
               person("Kelly Cristina", "Mota Gonçalves", role = c("aut", "ths"),
                      email = "kelly@dme.ufrj.br"))
@@ -12,7 +12,8 @@ Author: Pedro Soares Figueiredo [aut, cre],
 Maintainer: Pedro Soares Figueiredo <pedrosfig@hotmail.com>
 Description: Allows the user to apply the Bayes Linear approach to finite population with the Simple Random Sampling - BLE_SRS() - and the 
     Stratified Simple Random Sampling design - BLE_SSRS() - (both without replacement) and also in the Ratio estimator (using auxiliary information) - BLE_Ratio(). 
-    It is also possible to achieve the design based estimators using vague prior distribuitions.
+    It is also possible to achieve the design based estimators using vague prior distributions.    
+    Based on 'Gonçalves, K.C.M, Moura, F.A.S and  Migon, H.S.(2014). Bayes Linear Estimation for Finite Population with emphasis on categorical data. Survey Methodology, 40, 15-28' <https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886>.
 URL: https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886, https://github.com/pedrosfig/BayesSampling
 License: GPL-3
 Encoding: UTF-8
