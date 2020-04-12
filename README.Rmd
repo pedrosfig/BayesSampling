@@ -1,0 +1,120 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# BayesSampling
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+
+## Installation
+
+You can install the released version of BayesSampling from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("BayesSampling")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("pedrosfig/BayesSampling")
+```
+
+
+# Bayes linear estimation for finite population
+
+### (From "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
+
+
+## 1. Introduction
+
+  Surveys have long been an important way of obtaining accurate information from a finite population. For instance, governments need to obtain descriptive statistics of the population for purposes of evaluating and implementing their policies. For those concerned with official statistics in the first third of the twentieth century, the major issue was to establish a standard of acceptable practice. Neyman (1934) created such a framework by introducing the role of randomization methods in the sampling process. He advocated the use of the randomization distribution induced by the sampling design to evaluate the frequentist properties of alternative procedures. He also introduced the idea of stratification with optimal sample size allocation and the use of unequal selection probabilities. His work was recognized as the cornerstone of design-based sample survey theory and inspired many other authors. For example, Horvitz and Thompson (1952) proposed a general theory of unequal probability sampling and the probability weighted estimation method, the so-called “Horvitz and Thompson’s estimator”.\
+  
+  
+  The design-based sample survey theory has been very appealing to official statistics agencies around the world. As pointed out by Skinner, Holt and Smith (1989), page 2, the main reason is that it is essentially distribution-free. Indeed, all advances in survey sampling theory from Neyman onwards have been strongly influenced by the descriptive use of survey sampling. The consequence of this has been a lack of theoretical developments related to the analytic use of surveys, in particular for prediction purposes. __In some specific situations, the design-based approach has proved to be inefficient, providing inadequate predictors. For instance, estimation in small domains and the presence of the non-response cannot be dealt with by the design-based approach without some implicit assumptions, which is equivalent to assuming a model.__ Supporters of the design-based approach argue that model-based inference largely depends on the model assumptions, which might not be true. On the other hand, interval inference for target population parameters (usually totals or means) relies on the Central Limit Theorem, which cannot be applied in many practical situations, where the sample size is not large enough and/or independence assumptions of the random variables involved are not realistic.\  
+  
+  
+  Basu (1971) did not accept estimates of population quantities which depend on the sampling rule, like the inclusion probabilities. He argued that this estimation procedure does not satisfy the likelihood principle, at which he was adept. Basu (1971) created the circus elephant example to show that the Horvitz-Thompson estimator could lead to inappropriate estimates and proposed an alternative estimator. The question that arises is whether it is possible to conciliate both approaches. In the superpopulation model context, Zacks (2002) showed that some design-based estimators can be recovered by using a general regression model approach. Little (2003) claims that: “careful model specification sensitive to the survey design can address the concerns with model specifications, and Bayesian statistics provide a coherent and unified treatment of descriptive and analytic survey inference”. He gave some illustrative examples of how __standard design-based inference can be derived from the Bayesian perspective, using some models with non-informative prior distributions.__\  
+
+ 
+  In the Bayesian context, another appealing proposal to conciliate the design-based and model-based approaches was proposed by Smouse (1984). The method incorporates prior information in finite population inference models by relying on Bayesian least squares techniques and requires only the specification of first and second moments of the distributions involved, describing prior knowledge about the structures present in the population. The approach is an alternative to the methods of randomization and appears midway between two extreme views: on the one hand the design-based procedures and on the other those based on superpopulation models. O’Hagan (1985), in an unpublished report, presented the Bayes linear estimators in some specific sample survey contexts and O’Hagan (1987) also derived Bayes linear estimators for some randomized response models. O’Hagan (1985) dealt with several population structures, such as stratification and clustering, by assuming suitable hypotheses about the first and second moments and showed how some common design-based estimators can be obtained as a particular case of his more general approach. He also pointed out that his estimates do not account for non-informative sampling. He quoted Scott (1977) and commented that informative sampling should be carried out by a full Bayesian analysis. An important reference about informative sampling dealing with hierarchical models can be found in Pfeffermann, Moura and Silva (2006).\
+
+
+
+## 2. Bayes linear estimation for finite population 
+
+
+  The Bayes approach has been found to be successful in many applications, particularly when the data analysis has been improved by expert judgments. But while Bayesian models have many appealing features, their application often involves the full specification of a prior distribution for a large number of parameters. Goldstein and Wooff (2007), section 1.2, argue that as the complexity of the problem increases, our actual ability to fully specify the prior and/or the sampling model in detail is impaired. They conclude that in such situations, there is a need to develop methods based on partial belief specification.\
+  
+  
+  Hartigan (1969) proposed an estimation method, termed __Bayes linear estimation approach, that only requires the specification of first and second moments__. The resulting estimators have the property of minimizing posterior squared error loss among all estimators that are linear in the data and __can be thought of as approximations to posterior means__. The Bayes linear estimation approach is fully employed in this article and is briefly described below.\
+  
+  
+### 2.1 Bayes linear approach
+
+  Let $y_s$ be the vector with observations and $\theta$ be the parameter to be estimated. For each value of $\theta$ and each possible estimate $d$, belonging to the parametric space $\Theta$, we associate a quadratic loss function $L(\theta, d) = (\theta - d)' (\theta - d) = tr (\theta - d) (\theta - d)'$. The main interest is to find the value of $d$ that minimizes $r(d) = E [L (\theta, d) | y_s]$, the conditional expected value of the quadratic loss function given the data.\
+  
+  Suppose that the joint distribution of $\theta$ and $y_s$ is partially specified by only their first two moments:
+  
+\begin{equation}
+\tag{2.1}
+
+\begin{pmatrix}
+	\theta\\
+	y_s
+	\end{pmatrix} \hspace{0.1cm} \sim \hspace{0.1cm} \begin{bmatrix}
+	\begin{pmatrix}
+	a\\
+	\text{f}
+	\end{pmatrix},\begin{pmatrix}
+	R & AQ\\
+	QA^{'} & Q
+	\end{pmatrix}
+	\end{bmatrix}  
+
+\end{equation}
+
+
+where $a$ and $f$, respectively, denote mean vectors and $R$, $AQ$ and $Q$ the covariance matrix elements of $\theta$ and $y_s$.\
+
+  The Bayes linear estimator (BLE) of $\theta$ is the value of $d$ that minimizes the expected value of this quadratic loss function within the class of all linear estimates of the form $d = d(y_s) = h + H y_s$, for some vector $h$ and matrix $H$. Thus, the BLE of $\theta$, $\hat{d}$, and its associated variance, $\hat{V} (\hat{d})$, are respectively given by:
+  
+\begin{equation}
+\tag{2.2}
+
+\hat{d} = a + A(y_s - \text{f})
+\hspace{0.7cm} \text{and} \hspace{0.7cm}
+\hat{V}(\hat{d}) = R - AQA^{'}
+
+\end{equation}
+
+
+  __It should be noted that the BLE depends on the specification of the first and second moments of the joint distribution__ partially specified in (2.1).
+  
+  From the Bayes linear approach applied to the general linear regression model for finite population prediction, the paper shows how to obtain some particular design-based estimators, as in simple random sampling and stratified simple random sampling.
+
+
+## 3. Functions
+  
+The package contain the main following functions:  
+  
+* BLE_Reg() - general function (base for the rest of the functions)
+* BLE_SRS() - Simple Random Sample case
+* BLE_SSRS() - Stratified Simple Random Sample case
+* BLE_Ratio() - Ratio Estimator case
+
+
