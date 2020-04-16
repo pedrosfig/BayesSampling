@@ -29,10 +29,10 @@ Depends: R (>= 3.5)
 Imports: 
     MASS,
     Matrix,
-    stats,
-    TeachingSampling
+    stats
 Suggests: 
     knitr,
-    rmarkdown
+    rmarkdown,
+    TeachingSampling
 VignetteBuilder: knitr
 Language: en-US
