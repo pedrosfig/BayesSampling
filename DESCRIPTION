@@ -11,8 +11,6 @@ Authors@R: c(person("Pedro", "Soares Figueiredo",
                      role = c("aut", "ths"),
                      email = "kelly@dme.ufrj.br",
                      comment = c(ORCID = "0000-0002-4524-547X")))
-Author: Pedro Soares Figueiredo [aut, cre], 
-        Kelly C. M. Gonçalves [aut, ths]
 Maintainer: Pedro Soares Figueiredo <pedrosfig@hotmail.com>
 Description: Allows the user to apply the Bayes Linear approach to finite population with the Simple Random Sampling - BLE_SRS() - and
     the Stratified Simple Random Sampling design - BLE_SSRS() - (both without replacement) and to the Ratio estimator (using auxiliary
