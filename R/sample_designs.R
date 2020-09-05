@@ -2,8 +2,9 @@
 #'
 #' Creates the Bayes Linear Estimator for the Simple Random Sampling design (without replacement)
 #'
-#' @param ys vector of sample observations.
+#' @param ys vector of sample observations or sample mean ('sigma' and 'n' parameters will be required in this case).
 #' @param N total size of the population.
+#' @param n sample size. Necessary only if 'ys' represents sample mean (will not be used otherwise).
 #' @param m prior mean. If NULL, sample mean will be used (non-informative prior).
 #' @param v prior variance of an element from the population (bigger than sigma^2). If NULL, it will tend to infinity (non-informative prior).
 #' @param sigma prior estimate of variability (standard deviation) within the population. If NULL, sample variance will be used.
@@ -30,16 +31,25 @@
 #' Estimator <- BLE_SRS(ys,N,m,v,sigma)
 #' Estimator
 #' @export
-BLE_SRS <- function(ys,N,m=NULL,v=NULL,sigma=NULL){
+BLE_SRS <- function(ys, N, n=NULL, m=NULL, v=NULL, sigma=NULL){
 
-  war_1 <- "parameter m (prior mean) not informed, sample mean used in estimations"
-  war_2 <- "parameter sigma (prior variability) not informed, sample variance used in estimations"
-  war_3 <- "parameter v (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
+  war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
+  war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
+  war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
 
   if (is.null(m)){
     warning(war_1)
     m <- mean(ys)
   }
+
+
+  if(length(ys)==1){
+    if( (is.null(sigma)) | is.null(n) ){
+      stop("ys of length 1 requires not null parameters 'sigma' and 'n'")
+    }
+    ys <- rep(ys, n)
+  }
+
 
   if(is.null(sigma)){
     warning(war_2)
@@ -51,8 +61,9 @@ BLE_SRS <- function(ys,N,m=NULL,v=NULL,sigma=NULL){
     v <- 10^100 * mean(ys)}
 
   if(v < sigma^2){
-    stop("prior variance (parameter v) too small")
+    stop("prior variance (parameter 'v') too small")
   }
+
 
   xs <- create1(ys)
   a <- m
@@ -104,9 +115,9 @@ BLE_SRS <- function(ys,N,m=NULL,v=NULL,sigma=NULL){
 #' @export
 BLE_SSRS <- function(ys, h, N, m=NULL,v=NULL,sigma=NULL){
 
-  war_1 <- "parameter m (prior mean) not informed, sample mean used in estimations"
-  war_2 <- "parameter sigma (prior variability) not informed, sample variance used in estimations"
-  war_3 <- "parameter v (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
+  war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
+  war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
+  war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
 
 
 
@@ -154,7 +165,7 @@ BLE_SSRS <- function(ys, h, N, m=NULL,v=NULL,sigma=NULL){
 
   for (i in 1:H) {
     if(v[i] < sigma[i]^2){
-      stop("prior variance (parameter v) too small")
+      stop("prior variance (parameter 'v') too small")
     }
 
   }
@@ -246,9 +257,9 @@ BLE_SSRS <- function(ys, h, N, m=NULL,v=NULL,sigma=NULL){
 #' @export
 BLE_Ratio <- function(ys,xs, x_nots,m=NULL,v=NULL,sigma=NULL){
 
-  war_1 <- "parameter m (prior mean) not informed, sample mean used in estimations"
-  war_2 <- "parameter sigma (prior variability) not informed, sample variance used in estimations"
-  war_3 <- "parameter v (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
+  war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
+  war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
+  war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
 
 
   z <- ys/xs
@@ -268,7 +279,7 @@ BLE_Ratio <- function(ys,xs, x_nots,m=NULL,v=NULL,sigma=NULL){
     v <- 10^100 * mean(ys)}
 
   if(v < sigma^2){
-    stop("prior variance (parameter v) too small")
+    stop("prior variance (parameter 'v') too small")
   }
 
 
