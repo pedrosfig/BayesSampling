@@ -16,11 +16,11 @@ BLE_SSRS(ys, h, N, m = NULL, v = NULL, sigma = NULL)
 
 \item{N}{vector with the total size of each strata.}
 
-\item{m}{vector with the prior mean of each strata. If NULL, sample mean for each strata will be used (non-informative prior).}
+\item{m}{vector with the prior mean of each strata. If \code{NULL}, sample mean for each strata will be used (non-informative prior).}
 
-\item{v}{vector with the prior variance of an element from each strata (bigger than sigma^2 for each strata). If NULL, it will tend to infinity (non-informative prior).}
+\item{v}{vector with the prior variance of an element from each strata (bigger than \code{sigma^2} for each strata). If \code{NULL}, it will tend to infinity (non-informative prior).}
 
-\item{sigma}{vector with the prior estimate of variability (standard deviation) within each strata of the population. If NULL, sample variance of each strata will be used.}
+\item{sigma}{vector with the prior estimate of variability (standard deviation) within each strata of the population. If \code{NULL}, sample variance of each strata will be used.}
 }
 \value{
 A list containing the following components: \itemize{

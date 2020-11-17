@@ -100,12 +100,12 @@ VT_Reg <- function(ys,xs,a,R,Vs,x_nots,V_nots) {
 #'@param V_nots covariance matrix of the individuals not in the sample
 #'
 #' @return A list containing the following components: \itemize{
-#' \item est.beta - BLE of Beta
-#' \item Vest.beta - Variance associated with the above
-#' \item est.mean - BLE of each individual not in the sample
-#' \item Vest.mean - Covariance matrix associated with the above
-#' \item est.tot - BLE for the total
-#' \item Vest.tot - Variance associated with the above
+#' \item \code{est.beta} - BLE of Beta
+#' \item \code{Vest.beta} - Variance associated with the above
+#' \item \code{est.mean} - BLE of each individual not in the sample
+#' \item \code{Vest.mean} - Covariance matrix associated with the above
+#' \item \code{est.tot} - BLE for the total
+#' \item \code{Vest.tot} - Variance associated with the above
 #' }
 #'
 #' @source \url{https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886}

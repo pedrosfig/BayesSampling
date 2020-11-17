@@ -16,11 +16,13 @@ BLE_Ratio(ys, xs, x_nots, m = NULL, v = NULL, sigma = NULL)
 
 \item{x_nots}{vector with values for the auxiliary variable of the elements not in the sample.}
 
-\item{m}{prior mean for the ratio between Y and X. If NULL, \code{mean(ys)/mean(xs)} will be used (non-informative prior).}
+\item{m}{prior mean for the ratio between Y and X. If \code{NULL}, \code{mean(ys)/mean(xs)} will be used (non-informative prior).}
 
-\item{v}{prior variance of the ratio between Y and X (bigger than sigma^2). If NULL, it will tend to infinity (non-informative prior).}
+\item{v}{prior variance of the ratio between Y and X (bigger than \code{sigma^2}). If \code{NULL}, it will tend to infinity (non-informative prior).}
 
-\item{sigma}{prior estimate of variability (standard deviation) of the ratio within the population. If NULL, sample variance of the ratio will be used.}
+\item{sigma}{prior estimate of variability (standard deviation) of the ratio within the population. If \code{NULL}, sample variance of the ratio will be used.}
+
+\item{n}{sample size. Necessary only if \code{ys} and represents sample mean (will not be used otherwise).}
 }
 \value{
 A list containing the following components: \itemize{

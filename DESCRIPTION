@@ -22,7 +22,7 @@ URL: https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886, https://
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.1
 Depends: R (>= 3.5)
 Imports: 
     MASS,

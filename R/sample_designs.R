@@ -2,12 +2,12 @@
 #'
 #' Creates the Bayes Linear Estimator for the Simple Random Sampling design (without replacement)
 #'
-#' @param ys vector of sample observations or sample mean ('sigma' and 'n' parameters will be required in this case).
+#' @param ys vector of sample observations or sample mean (\code{sigma} and \code{n} parameters will be required in this case).
 #' @param N total size of the population.
-#' @param n sample size. Necessary only if 'ys' represents sample mean (will not be used otherwise).
-#' @param m prior mean. If NULL, sample mean will be used (non-informative prior).
-#' @param v prior variance of an element from the population (bigger than sigma^2). If NULL, it will tend to infinity (non-informative prior).
-#' @param sigma prior estimate of variability (standard deviation) within the population. If NULL, sample variance will be used.
+#' @param m prior mean. If \code{NULL}, sample mean will be used (non-informative prior).
+#' @param v prior variance of an element from the population (bigger than \code{sigma^2}). If \code{NULL}, it will tend to infinity (non-informative prior).
+#' @param sigma prior estimate of variability (standard deviation) within the population. If \code{NULL}, sample variance will be used.
+#' @param n sample size. Necessary only if \code{ys} represents sample mean (will not be used otherwise).
 #'
 #' @return A list containing the following components: \itemize{
 #' \item \code{est.beta} - BLE of Beta (BLE for every individual)
@@ -30,26 +30,41 @@
 #'
 #' Estimator <- BLE_SRS(ys,N,m,v,sigma)
 #' Estimator
+#'
+#'
+#' ys <- mean(c(5,6,8))
+#' n <- 3
+#' m <- 6
+#' v <- 5
+#' sigma <- 1
+#' N <- 5
+#'
+#' Estimator <- BLE_SRS(ys,N,m,v,sigma,n)
+#' Estimator
+#'
+#'
 #' @export
-BLE_SRS <- function(ys, N, n=NULL, m=NULL, v=NULL, sigma=NULL){
+BLE_SRS <- function(ys, N, m=NULL, v=NULL, sigma=NULL, n=NULL){
 
   war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
   war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
   war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
-
-  if (is.null(m)){
-    warning(war_1)
-    m <- mean(ys)
-  }
+  war_4 <- "sample mean informed instead of sample observations, parameters 'n' and 'sigma' will be necessary"
 
 
   if(length(ys)==1){
+    warning(war_4)
     if( (is.null(sigma)) | is.null(n) ){
       stop("ys of length 1 requires not null parameters 'sigma' and 'n'")
     }
     ys <- rep(ys, n)
   }
 
+
+  if (is.null(m)){
+    warning(war_1)
+    m <- mean(ys)
+  }
 
   if(is.null(sigma)){
     warning(war_2)
@@ -86,9 +101,9 @@ BLE_SRS <- function(ys, N, n=NULL, m=NULL, v=NULL, sigma=NULL){
 #' @param ys vector of sample observations.
 #' @param h vector with number of observations in each strata.
 #' @param N vector with the total size of each strata.
-#' @param m vector with the prior mean of each strata. If NULL, sample mean for each strata will be used (non-informative prior).
-#' @param v vector with the prior variance of an element from each strata (bigger than sigma^2 for each strata). If NULL, it will tend to infinity (non-informative prior).
-#' @param sigma vector with the prior estimate of variability (standard deviation) within each strata of the population. If NULL, sample variance of each strata will be used.
+#' @param m vector with the prior mean of each strata. If \code{NULL}, sample mean for each strata will be used (non-informative prior).
+#' @param v vector with the prior variance of an element from each strata (bigger than \code{sigma^2} for each strata). If \code{NULL}, it will tend to infinity (non-informative prior).
+#' @param sigma vector with the prior estimate of variability (standard deviation) within each strata of the population. If \code{NULL}, sample variance of each strata will be used.
 #'
 #' @return A list containing the following components: \itemize{
 #' \item \code{est.beta} - BLE of Beta (BLE for the individuals in each strata)
@@ -228,9 +243,10 @@ BLE_SSRS <- function(ys, h, N, m=NULL,v=NULL,sigma=NULL){
 #' @param ys vector of sample observations.
 #' @param xs vector with values for the auxiliary variable of the elements in the sample.
 #' @param x_nots vector with values for the auxiliary variable of the elements not in the sample.
-#' @param m prior mean for the ratio between Y and X. If NULL, \code{mean(ys)/mean(xs)} will be used (non-informative prior).
-#' @param v prior variance of the ratio between Y and X (bigger than sigma^2). If NULL, it will tend to infinity (non-informative prior).
-#' @param sigma prior estimate of variability (standard deviation) of the ratio within the population. If NULL, sample variance of the ratio will be used.
+#' @param m prior mean for the ratio between Y and X. If \code{NULL}, \code{mean(ys)/mean(xs)} will be used (non-informative prior).
+#' @param v prior variance of the ratio between Y and X (bigger than \code{sigma^2}). If \code{NULL}, it will tend to infinity (non-informative prior).
+#' @param sigma prior estimate of variability (standard deviation) of the ratio within the population. If \code{NULL}, sample variance of the ratio will be used.
+#' @param n sample size. Necessary only if \code{ys} and represents sample mean (will not be used otherwise).
 #'
 #' @return A list containing the following components: \itemize{
 #' \item \code{est.beta} - BLE of Beta
