@@ -46,7 +46,7 @@ R <- matrix(c(10,2,2,10),nrow=2,ncol=2)
 Vs <- diag(c(1,1,1,1))
 V_nots <- diag(c(1,1,1))
 
-Estimator <- BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots)
+Estimator <- BLE_Reg(ys, xs, a, R, Vs, x_nots, V_nots)
 Estimator
 
 }

@@ -7,12 +7,12 @@
 \url{https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886}
 }
 \usage{
-BLE_Ratio(ys, xs, x_nots, m = NULL, v = NULL, sigma = NULL)
+BLE_Ratio(ys, xs, x_nots, m = NULL, v = NULL, sigma = NULL, n = NULL)
 }
 \arguments{
-\item{ys}{vector of sample observations.}
+\item{ys}{vector of sample observations or sample mean (\code{sigma} and \code{n} parameters will be required in this case).}
 
-\item{xs}{vector with values for the auxiliary variable of the elements in the sample.}
+\item{xs}{vector with values for the auxiliary variable of the elements in the sample or sample mean.}
 
 \item{x_nots}{vector with values for the auxiliary variable of the elements not in the sample.}
 
@@ -22,7 +22,7 @@ BLE_Ratio(ys, xs, x_nots, m = NULL, v = NULL, sigma = NULL)
 
 \item{sigma}{prior estimate of variability (standard deviation) of the ratio within the population. If \code{NULL}, sample variance of the ratio will be used.}
 
-\item{n}{sample size. Necessary only if \code{ys} and represents sample mean (will not be used otherwise).}
+\item{n}{sample size. Necessary only if \code{ys} and \code{xs} represent sample means (will not be used otherwise).}
 }
 \value{
 A list containing the following components: \itemize{
@@ -39,13 +39,26 @@ Creates the Bayes Linear Estimator for the Ratio "estimator"
 }
 \examples{
 ys <- c(10,8,6)
-xs <- c(5,4,3)
-x_nots <- c(1,20)
-m <- 2
+xs <- c(5,4,3.1)
+x_nots <- c(1,20,13,15,-5)
+m <- 2.5
 v <- 10
 sigma <- 2
 
-Estimator <- BLE_Ratio(ys,xs,x_nots,m,v,sigma)
+Estimator <- BLE_Ratio(ys, xs, x_nots, m, v, sigma)
+Estimator
+
+
+# Same example but informing sample means and sample size instead of sample observations
+ys <- mean(c(10,8,6))
+xs <- mean(c(5,4,3.1))
+n <- 3
+x_nots <- c(1,20,13,15,-5)
+m <- 2.5
+v <- 10
+sigma <- 2
+
+Estimator <- BLE_Ratio(ys, xs, x_nots, m, v, sigma, n)
 Estimator
 }
 \references{

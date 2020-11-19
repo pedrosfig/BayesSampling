@@ -120,7 +120,7 @@ VT_Reg <- function(ys,xs,a,R,Vs,x_nots,V_nots) {
 #' Vs <- diag(c(1,1,1,1))
 #' V_nots <- diag(c(1,1,1))
 #'
-#' Estimator <- BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots)
+#' Estimator <- BLE_Reg(ys, xs, a, R, Vs, x_nots, V_nots)
 #' Estimator
 #'
 #' @export

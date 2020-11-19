@@ -7,7 +7,7 @@
 #' @param m prior mean. If \code{NULL}, sample mean will be used (non-informative prior).
 #' @param v prior variance of an element from the population (bigger than \code{sigma^2}). If \code{NULL}, it will tend to infinity (non-informative prior).
 #' @param sigma prior estimate of variability (standard deviation) within the population. If \code{NULL}, sample variance will be used.
-#' @param n sample size. Necessary only if \code{ys} represents sample mean (will not be used otherwise).
+#' @param n sample size. Necessary only if \code{ys} represent sample mean (will not be used otherwise).
 #'
 #' @return A list containing the following components: \itemize{
 #' \item \code{est.beta} - BLE of Beta (BLE for every individual)
@@ -23,23 +23,24 @@
 #'
 #' @examples
 #' ys <- c(5,6,8)
+#' N <- 5
 #' m <- 6
 #' v <- 5
 #' sigma <- 1
-#' N <- 5
 #'
-#' Estimator <- BLE_SRS(ys,N,m,v,sigma)
+#' Estimator <- BLE_SRS(ys, N, m, v, sigma)
 #' Estimator
 #'
 #'
+#' # Same example but informing sample mean and sample size instead of sample observations
 #' ys <- mean(c(5,6,8))
+#' N <- 5
 #' n <- 3
 #' m <- 6
 #' v <- 5
 #' sigma <- 1
-#' N <- 5
 #'
-#' Estimator <- BLE_SRS(ys,N,m,v,sigma,n)
+#' Estimator <- BLE_SRS(ys, N, m, v, sigma, n)
 #' Estimator
 #'
 #'
@@ -118,17 +119,17 @@ BLE_SRS <- function(ys, N, m=NULL, v=NULL, sigma=NULL, n=NULL){
 #' @references Gonçalves, K.C.M, Moura, F.A.S and  Migon, H.S.(2014). Bayes Linear Estimation for Finite Population with emphasis on categorical data. Survey Methodology, 40, 15-28.
 #'
 #' @examples
-#' ys <- c(2,-1,1.5, 6,10, 8,8)
+#' ys <- c(2,-1,1.5,6,10,8,8)
 #' h <- c(3,2,2)
+#' N <- c(5,5,3)
 #' m <- c(0,9,8)
 #' v <- c(3,8,1)
 #' sigma <- c(1,2,0.5)
-#' N <- c(5,5,3)
 #'
-#' Estimator <- BLE_SSRS(ys,h,N,m,v,sigma)
+#' Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
 #' Estimator
 #' @export
-BLE_SSRS <- function(ys, h, N, m=NULL,v=NULL,sigma=NULL){
+BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
 
   war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
   war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
@@ -240,13 +241,13 @@ BLE_SSRS <- function(ys, h, N, m=NULL,v=NULL,sigma=NULL){
 #'
 #' Creates the Bayes Linear Estimator for the Ratio "estimator"
 #'
-#' @param ys vector of sample observations.
-#' @param xs vector with values for the auxiliary variable of the elements in the sample.
+#' @param ys vector of sample observations or sample mean (\code{sigma} and \code{n} parameters will be required in this case).
+#' @param xs vector with values for the auxiliary variable of the elements in the sample or sample mean.
 #' @param x_nots vector with values for the auxiliary variable of the elements not in the sample.
 #' @param m prior mean for the ratio between Y and X. If \code{NULL}, \code{mean(ys)/mean(xs)} will be used (non-informative prior).
 #' @param v prior variance of the ratio between Y and X (bigger than \code{sigma^2}). If \code{NULL}, it will tend to infinity (non-informative prior).
 #' @param sigma prior estimate of variability (standard deviation) of the ratio within the population. If \code{NULL}, sample variance of the ratio will be used.
-#' @param n sample size. Necessary only if \code{ys} and represents sample mean (will not be used otherwise).
+#' @param n sample size. Necessary only if \code{ys} and \code{xs} represent sample means (will not be used otherwise).
 #'
 #' @return A list containing the following components: \itemize{
 #' \item \code{est.beta} - BLE of Beta
@@ -262,21 +263,48 @@ BLE_SSRS <- function(ys, h, N, m=NULL,v=NULL,sigma=NULL){
 #'
 #' @examples
 #' ys <- c(10,8,6)
-#' xs <- c(5,4,3)
-#' x_nots <- c(1,20)
-#' m <- 2
+#' xs <- c(5,4,3.1)
+#' x_nots <- c(1,20,13,15,-5)
+#' m <- 2.5
 #' v <- 10
 #' sigma <- 2
 #'
-#' Estimator <- BLE_Ratio(ys,xs,x_nots,m,v,sigma)
+#' Estimator <- BLE_Ratio(ys, xs, x_nots, m, v, sigma)
+#' Estimator
+#'
+#'
+#' # Same example but informing sample means and sample size instead of sample observations
+#' ys <- mean(c(10,8,6))
+#' xs <- mean(c(5,4,3.1))
+#' n <- 3
+#' x_nots <- c(1,20,13,15,-5)
+#' m <- 2.5
+#' v <- 10
+#' sigma <- 2
+#'
+#' Estimator <- BLE_Ratio(ys, xs, x_nots, m, v, sigma, n)
 #' Estimator
 #' @export
-BLE_Ratio <- function(ys,xs, x_nots,m=NULL,v=NULL,sigma=NULL){
+BLE_Ratio <- function(ys, xs, x_nots, m=NULL, v=NULL, sigma=NULL, n=NULL){
 
   war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
   war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
   war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
+  war_4 <- "sample means informed instead of sample observations, parameters 'n' and 'sigma' will be necessary"
 
+
+  if(length(ys) != length(xs)){
+    stop("dimensions of ys and xs are different")
+  }
+
+  if(length(ys)==1){
+    warning(war_4)
+    if( (is.null(sigma)) | is.null(n) ){
+      stop("ys of length 1 requires not null parameters 'sigma' and 'n'")
+    }
+    ys <- rep(ys, n)
+    xs <- rep(xs, n)
+  }
 
   z <- ys/xs
 

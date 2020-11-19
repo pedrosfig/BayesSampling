@@ -36,14 +36,14 @@ A list containing the following components: \itemize{
 Creates the Bayes Linear Estimator for the Stratified Simple Random Sampling design (without replacement)
 }
 \examples{
-ys <- c(2,-1,1.5, 6,10, 8,8)
+ys <- c(2,-1,1.5,6,10,8,8)
 h <- c(3,2,2)
+N <- c(5,5,3)
 m <- c(0,9,8)
 v <- c(3,8,1)
 sigma <- c(1,2,0.5)
-N <- c(5,5,3)
 
-Estimator <- BLE_SSRS(ys,h,N,m,v,sigma)
+Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
 Estimator
 }
 \references{

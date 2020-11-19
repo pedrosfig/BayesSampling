@@ -326,12 +326,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h3>(From Section 2.3.1 of the “<a href="https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886">Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data</a>”)</h3>
 <p>In a simple model, where there is no auxiliary variable, and a Simple Random Sample was taken from the population, we can calculate the Bayes Linear Estimator for the individuals of the population with the <em>BLE_SRS()</em> function, which receives the following parameters:</p>
 <ul>
-<li><span class="math inline">\(y_s\)</span> - either a vector containing the observed values or just the value for the sample mean (‘sigma’ and ‘n’ parameters will be required in this case).;</li>
+<li><span class="math inline">\(y_s\)</span> - either a vector containing the observed values or just the value for the sample mean (<span class="math inline">\(\sigma\)</span> and <span class="math inline">\(n\)</span> parameters will be required in this case);</li>
 <li><span class="math inline">\(N\)</span> - total size of the population;</li>
-<li><span class="math inline">\(n\)</span> - sample size. Necessary only if ‘ys’ represents sample mean (will not be used otherwise).</li>
-<li><span class="math inline">\(m\)</span> - prior mean. If NULL, sample mean will be used (non-informative prior);</li>
-<li><span class="math inline">\(v\)</span> - prior variance of an element from the population (<span class="math inline">\(&gt; \sigma^2\)</span>). If NULL, it will tend to infinity (non-informative prior);</li>
-<li><span class="math inline">\(\sigma\)</span> - prior estimate of variability (standard deviation) within the population. If NULL, sample variance will be used.</li>
+<li><span class="math inline">\(m\)</span> - prior mean. If <em>NULL</em>, sample mean will be used (non-informative prior);</li>
+<li><span class="math inline">\(v\)</span> - prior variance of an element from the population (<span class="math inline">\(&gt; \sigma^2\)</span>). If <em>NULL</em>, it will tend to infinity (non-informative prior);</li>
+<li><span class="math inline">\(\sigma\)</span> - prior estimate of variability (standard deviation) within the population. If <em>NULL</em>, sample variance will be used;</li>
+<li><span class="math inline">\(n\)</span> - sample size. Necessary only if <span class="math inline">\(y_s\)</span> represent sample mean (will not be used otherwise).</li>
 </ul>
 </div>
 <div id="vague-prior-distribuition" class="section level3">
@@ -339,8 +339,8 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>Letting <span class="math inline">\(v \to \infty\)</span> and keeping <span class="math inline">\(\sigma^2\)</span> fixed, that is, assuming prior ignorance, the resulting estimator will be the same as the one seen in the disgn-based context for the simple random sampling case. </p>
 <p>This can be achieved using the <em>BLE_SRS()</em> function by omitting either the prior mean and/or the prior variance, that is:</p>
 <ul>
-<li><span class="math inline">\(m = NULL\)</span> - the sample mean will be used;</li>
-<li><span class="math inline">\(v = NULL\)</span> - prior variance will tend to infinity.</li>
+<li><span class="math inline">\(m =\)</span> <em>NULL</em> - the sample mean will be used</li>
+<li><span class="math inline">\(v =\)</span> <em>NULL</em> - prior variance will tend to infinity</li>
 </ul>
 </div>
 <div id="examples" class="section level3">
@@ -379,12 +379,12 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li>Example from the help page</li>
 </ol>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>ys &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>m &lt;-<span class="st"> </span><span class="dv">6</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a>v &lt;-<span class="st"> </span><span class="dv">5</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a>sigma &lt;-<span class="st"> </span><span class="dv">1</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>N &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a>N &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>m &lt;-<span class="st"> </span><span class="dv">6</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>v &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>sigma &lt;-<span class="st"> </span><span class="dv">1</span></span>
 <span id="cb5-6"><a href="#cb5-6"></a></span>
-<span id="cb5-7"><a href="#cb5-7"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_SRS</span>(ys,N,m,v,sigma)</span>
+<span id="cb5-7"><a href="#cb5-7"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_SRS</span>(ys, N, m, v, sigma)</span>
 <span id="cb5-8"><a href="#cb5-8"></a>Estimator</span>
 <span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; $est.beta</span></span>
 <span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt;       Beta</span></span>
@@ -409,6 +409,43 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; </span></span>
 <span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; $Vest.tot</span></span>
 <span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; [1] 3.230769</span></span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Example from the help page, but informing sample mean and sample size instead of sample observations</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>ys &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>))</span>
+<span id="cb6-2"><a href="#cb6-2"></a>n &lt;-<span class="st"> </span><span class="dv">3</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>N &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>m &lt;-<span class="st"> </span><span class="dv">6</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>v &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>sigma &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_SRS</span>(ys, N, m, v, sigma, n)</span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; Warning in BLE_SRS(ys, N, m, v, sigma, n): sample mean informed instead of</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; sample observations, parameters &#39;n&#39; and &#39;sigma&#39; will be necessary</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>Estimator</span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; $est.beta</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt;       Beta</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; 1 6.307692</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt; </span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; $Vest.beta</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt;          V1</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt; 1 0.3076923</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt; </span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; $est.mean</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt;     y_nots</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; 1 6.307692</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; 2 6.307692</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt; </span></span>
+<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt; $Vest.mean</span></span>
+<span id="cb6-26"><a href="#cb6-26"></a><span class="co">#&gt;          V1        V2</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a><span class="co">#&gt; 1 1.3076923 0.3076923</span></span>
+<span id="cb6-28"><a href="#cb6-28"></a><span class="co">#&gt; 2 0.3076923 1.3076923</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a><span class="co">#&gt; </span></span>
+<span id="cb6-30"><a href="#cb6-30"></a><span class="co">#&gt; $est.tot</span></span>
+<span id="cb6-31"><a href="#cb6-31"></a><span class="co">#&gt; [1] 31.61538</span></span>
+<span id="cb6-32"><a href="#cb6-32"></a><span class="co">#&gt; </span></span>
+<span id="cb6-33"><a href="#cb6-33"></a><span class="co">#&gt; $Vest.tot</span></span>
+<span id="cb6-34"><a href="#cb6-34"></a><span class="co">#&gt; [1] 3.230769</span></span></code></pre></div>
 </div>
 </div>
 

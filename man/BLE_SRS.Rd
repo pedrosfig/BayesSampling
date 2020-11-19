@@ -20,7 +20,7 @@ BLE_SRS(ys, N, m = NULL, v = NULL, sigma = NULL, n = NULL)
 
 \item{sigma}{prior estimate of variability (standard deviation) within the population. If \code{NULL}, sample variance will be used.}
 
-\item{n}{sample size. Necessary only if \code{ys} represents sample mean (will not be used otherwise).}
+\item{n}{sample size. Necessary only if \code{ys} represent sample mean (will not be used otherwise).}
 }
 \value{
 A list containing the following components: \itemize{
@@ -37,23 +37,24 @@ Creates the Bayes Linear Estimator for the Simple Random Sampling design (withou
 }
 \examples{
 ys <- c(5,6,8)
+N <- 5
 m <- 6
 v <- 5
 sigma <- 1
-N <- 5
 
-Estimator <- BLE_SRS(ys,N,m,v,sigma)
+Estimator <- BLE_SRS(ys, N, m, v, sigma)
 Estimator
 
 
+# Same example but informing sample mean and sample size instead of sample observations
 ys <- mean(c(5,6,8))
+N <- 5
 n <- 3
 m <- 6
 v <- 5
 sigma <- 1
-N <- 5
 
-Estimator <- BLE_SRS(ys,N,m,v,sigma,n)
+Estimator <- BLE_SRS(ys, N, m, v, sigma, n)
 Estimator
 
 
