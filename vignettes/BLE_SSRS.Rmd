@@ -25,7 +25,7 @@ library(BayesSampling)
 
 In a simple model, where there is no auxiliary variable, and a Stratified Simple Random Sample was taken from the population, we can calculate the Bayes Linear Estimator for the individuals of each strata of the population with the _BLE_SSRS()_ function, which receives the following parameters:  
 
-* $y_s$ - a vector containing the observed values (aggregated by strata);
+* $y_s$ - a vector containing either the observed values (aggregated by strata) or sample mean for each strata ($\sigma$ parameter will be required in this case);
 * $h$ - a vector containing the number of observations of each strata in the sample;
 * $N$ - a vector containing the total size of each strata;
 * $m$ - a vector containing the prior mean of each strata. If _NULL_, sample mean for each strata will be used (non-informative prior);
@@ -109,20 +109,34 @@ Estimator$Vest.beta
 2. Example from the help page
 
 ```{r ex 2}
-ys <- c(2,-1,1.5,6,10,8,8)
+ys <- c(2,-1,1.5, 6,10, 8,8)
 h <- c(3,2,2)
 N <- c(5,5,3)
 m <- c(0,9,8)
 v <- c(3,8,1)
 sigma <- c(1,2,0.5)
 
-
 Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
 Estimator
 ```
 
 
+3. Example from the help page, but informing sample means instead of sample observations
 
+```{r ex 3}
+y1 <- mean(c(2,-1,1.5))
+y2 <- mean(c(6,10))
+y3 <- mean(c(8,8))
+ys <- c(y1, y2, y3)
+h <- c(3,2,2)
+N <- c(5,5,3)
+m <- c(0,9,8)
+v <- c(3,8,1)
+sigma <- c(1,2,0.5)
+
+Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
+Estimator
+```
 
 
 

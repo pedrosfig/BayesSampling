@@ -43,7 +43,6 @@
 #' Estimator <- BLE_SRS(ys, N, m, v, sigma, n)
 #' Estimator
 #'
-#'
 #' @export
 BLE_SRS <- function(ys, N, m=NULL, v=NULL, sigma=NULL, n=NULL){
 
@@ -99,7 +98,7 @@ BLE_SRS <- function(ys, N, m=NULL, v=NULL, sigma=NULL, n=NULL){
 #' Stratified Simple Random Sample BLE
 #'
 #' Creates the Bayes Linear Estimator for the Stratified Simple Random Sampling design (without replacement)
-#' @param ys vector of sample observations.
+#' @param ys vector of sample observations or sample mean for each strata (\code{sigma} parameter will be required in this case).
 #' @param h vector with number of observations in each strata.
 #' @param N vector with the total size of each strata.
 #' @param m vector with the prior mean of each strata. If \code{NULL}, sample mean for each strata will be used (non-informative prior).
@@ -119,7 +118,7 @@ BLE_SRS <- function(ys, N, m=NULL, v=NULL, sigma=NULL, n=NULL){
 #' @references Gonçalves, K.C.M, Moura, F.A.S and  Migon, H.S.(2014). Bayes Linear Estimation for Finite Population with emphasis on categorical data. Survey Methodology, 40, 15-28.
 #'
 #' @examples
-#' ys <- c(2,-1,1.5,6,10,8,8)
+#' ys <- c(2,-1,1.5, 6,10, 8,8)
 #' h <- c(3,2,2)
 #' N <- c(5,5,3)
 #' m <- c(0,9,8)
@@ -128,23 +127,54 @@ BLE_SRS <- function(ys, N, m=NULL, v=NULL, sigma=NULL, n=NULL){
 #'
 #' Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
 #' Estimator
+#'
+#'
+#' # Same example but informing sample means instead of sample observations
+#' y1 <- mean(c(2,-1,1.5))
+#' y2 <- mean(c(6,10))
+#' y3 <- mean(c(8,8))
+#' ys <- c(y1, y2, y3)
+#' h <- c(3,2,2)
+#' N <- c(5,5,3)
+#' m <- c(0,9,8)
+#' v <- c(3,8,1)
+#' sigma <- c(1,2,0.5)
+#'
+#' Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
+#' Estimator
+#'
 #' @export
 BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
 
   war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
   war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
   war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
-
+  war_4 <- "sample means informed instead of sample observations, parameter 'sigma' will be necessary"
 
 
   H <- length(h)
   if(H == 1){stop("only 1 strata defined, try using the BLE_SRS() function")}
 
 
-  marker <- c(1)   #diz onde começam as obs de cada estrato
+  if(length(ys)!=sum(h)){
+    if(length(ys)!=length(h)){
+      stop("length of 'ys' incompatable with 'h'")
+    }
+    else{                # length(ys)==length(h)
+      warning(war_4)
+      if(is.null(sigma)){
+        stop("not null parameter 'sigma' required")
+      }
+      ys <- rep(ys, h)
+    }
+  }
+
+
+  marker <- c(1)   # marks where the observations of each strata begin
   for(i in 2:H){
     marker <- c(marker, marker[i-1] + h[i-1])
   }
+
 
   if (is.null(m)){
     warning(war_1)
@@ -156,7 +186,6 @@ BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
     M <- mean(ys[marker[H] : length(ys)])
     m <- c(m, M)
   }
-
 
   if(is.null(sigma)){
     warning(war_2)
@@ -183,7 +212,6 @@ BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
     if(v[i] < sigma[i]^2){
       stop("prior variance (parameter 'v') too small")
     }
-
   }
 
 
@@ -229,9 +257,6 @@ BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
   R <- c*diag(H)
 
   return(BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots))
-
-
-
 }
 
 
@@ -284,6 +309,7 @@ BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
 #'
 #' Estimator <- BLE_Ratio(ys, xs, x_nots, m, v, sigma, n)
 #' Estimator
+#'
 #' @export
 BLE_Ratio <- function(ys, xs, x_nots, m=NULL, v=NULL, sigma=NULL, n=NULL){
 
@@ -297,6 +323,7 @@ BLE_Ratio <- function(ys, xs, x_nots, m=NULL, v=NULL, sigma=NULL, n=NULL){
     stop("dimensions of ys and xs are different")
   }
 
+
   if(length(ys)==1){
     warning(war_4)
     if( (is.null(sigma)) | is.null(n) ){
@@ -306,7 +333,9 @@ BLE_Ratio <- function(ys, xs, x_nots, m=NULL, v=NULL, sigma=NULL, n=NULL){
     xs <- rep(xs, n)
   }
 
+
   z <- ys/xs
+
 
   if (is.null(m)){
     warning(war_1)
@@ -335,9 +364,6 @@ BLE_Ratio <- function(ys, xs, x_nots, m=NULL, v=NULL, sigma=NULL, n=NULL){
   R <- c
 
   return(BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots))
-
-
-
 }
 
 

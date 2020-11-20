@@ -10,7 +10,7 @@
 BLE_SSRS(ys, h, N, m = NULL, v = NULL, sigma = NULL)
 }
 \arguments{
-\item{ys}{vector of sample observations.}
+\item{ys}{vector of sample observations or sample mean for each strata (\code{sigma} parameter will be required in this case).}
 
 \item{h}{vector with number of observations in each strata.}
 
@@ -36,7 +36,7 @@ A list containing the following components: \itemize{
 Creates the Bayes Linear Estimator for the Stratified Simple Random Sampling design (without replacement)
 }
 \examples{
-ys <- c(2,-1,1.5,6,10,8,8)
+ys <- c(2,-1,1.5, 6,10, 8,8)
 h <- c(3,2,2)
 N <- c(5,5,3)
 m <- c(0,9,8)
@@ -45,6 +45,22 @@ sigma <- c(1,2,0.5)
 
 Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
 Estimator
+
+
+# Same example but informing sample means instead of sample observations
+y1 <- mean(c(2,-1,1.5))
+y2 <- mean(c(6,10))
+y3 <- mean(c(8,8))
+ys <- c(y1, y2, y3)
+h <- c(3,2,2)
+N <- c(5,5,3)
+m <- c(0,9,8)
+v <- c(3,8,1)
+sigma <- c(1,2,0.5)
+
+Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
+Estimator
+
 }
 \references{
 Gonçalves, K.C.M, Moura, F.A.S and  Migon, H.S.(2014). Bayes Linear Estimation for Finite Population with emphasis on categorical data. Survey Methodology, 40, 15-28.

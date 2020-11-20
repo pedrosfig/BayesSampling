@@ -130,7 +130,6 @@ m <- 2.5
 v <- 10
 sigma <- 2
 
-
 Estimator <- BLE_Ratio(ys, xs, x_nots, m, v, sigma)
 Estimator
 ```
@@ -147,7 +146,6 @@ x_nots <- c(1,20,13,15,-5)
 m <- 2.5
 v <- 10
 sigma <- 2
-
 
 Estimator <- BLE_Ratio(ys, xs, x_nots, m, v, sigma, n)
 Estimator

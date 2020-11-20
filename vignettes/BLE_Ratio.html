@@ -419,38 +419,37 @@ i,j = 1,...,N \hspace{0.5cm} \forall i \neq j
 <span id="cb6-5"><a href="#cb6-5"></a>v &lt;-<span class="st"> </span><span class="dv">10</span></span>
 <span id="cb6-6"><a href="#cb6-6"></a>sigma &lt;-<span class="st"> </span><span class="dv">2</span></span>
 <span id="cb6-7"><a href="#cb6-7"></a></span>
-<span id="cb6-8"><a href="#cb6-8"></a></span>
-<span id="cb6-9"><a href="#cb6-9"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_Ratio</span>(ys, xs, x_nots, m, v, sigma)</span>
-<span id="cb6-10"><a href="#cb6-10"></a>Estimator</span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt; $est.beta</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt;       Beta</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt; 1 2.010444</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; </span></span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt; $Vest.beta</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt;          V1</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt; 1 0.3133159</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt; </span></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt; $est.mean</span></span>
-<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt;       y_nots</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; 1   2.010444</span></span>
-<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; 2  40.208877</span></span>
-<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; 3  26.135770</span></span>
-<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt; 4  30.156658</span></span>
-<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt; 5 -10.052219</span></span>
-<span id="cb6-26"><a href="#cb6-26"></a><span class="co">#&gt; </span></span>
-<span id="cb6-27"><a href="#cb6-27"></a><span class="co">#&gt; $Vest.mean</span></span>
-<span id="cb6-28"><a href="#cb6-28"></a><span class="co">#&gt;          V1         V2         V3         V4        V5</span></span>
-<span id="cb6-29"><a href="#cb6-29"></a><span class="co">#&gt; 1  4.313316   6.266319   4.073107   4.699739  -1.56658</span></span>
-<span id="cb6-30"><a href="#cb6-30"></a><span class="co">#&gt; 2  6.266319 205.326371  81.462141  93.994778 -31.33159</span></span>
-<span id="cb6-31"><a href="#cb6-31"></a><span class="co">#&gt; 3  4.073107  81.462141 104.950392  61.096606 -20.36554</span></span>
-<span id="cb6-32"><a href="#cb6-32"></a><span class="co">#&gt; 4  4.699739  93.994778  61.096606 130.496084 -23.49869</span></span>
-<span id="cb6-33"><a href="#cb6-33"></a><span class="co">#&gt; 5 -1.566580 -31.331593 -20.365535 -23.498695 -12.16710</span></span>
-<span id="cb6-34"><a href="#cb6-34"></a><span class="co">#&gt; </span></span>
-<span id="cb6-35"><a href="#cb6-35"></a><span class="co">#&gt; $est.tot</span></span>
-<span id="cb6-36"><a href="#cb6-36"></a><span class="co">#&gt; [1] 112.4595</span></span>
-<span id="cb6-37"><a href="#cb6-37"></a><span class="co">#&gt; </span></span>
-<span id="cb6-38"><a href="#cb6-38"></a><span class="co">#&gt; $Vest.tot</span></span>
-<span id="cb6-39"><a href="#cb6-39"></a><span class="co">#&gt; [1] 782.5796</span></span></code></pre></div>
+<span id="cb6-8"><a href="#cb6-8"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_Ratio</span>(ys, xs, x_nots, m, v, sigma)</span>
+<span id="cb6-9"><a href="#cb6-9"></a>Estimator</span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; $est.beta</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt;       Beta</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; 1 2.010444</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt; </span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; $Vest.beta</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt;          V1</span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; 1 0.3133159</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt; </span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt; $est.mean</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt;       y_nots</span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; 1   2.010444</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt; 2  40.208877</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; 3  26.135770</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; 4  30.156658</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt; 5 -10.052219</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt; </span></span>
+<span id="cb6-26"><a href="#cb6-26"></a><span class="co">#&gt; $Vest.mean</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a><span class="co">#&gt;          V1         V2         V3         V4        V5</span></span>
+<span id="cb6-28"><a href="#cb6-28"></a><span class="co">#&gt; 1  4.313316   6.266319   4.073107   4.699739  -1.56658</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a><span class="co">#&gt; 2  6.266319 205.326371  81.462141  93.994778 -31.33159</span></span>
+<span id="cb6-30"><a href="#cb6-30"></a><span class="co">#&gt; 3  4.073107  81.462141 104.950392  61.096606 -20.36554</span></span>
+<span id="cb6-31"><a href="#cb6-31"></a><span class="co">#&gt; 4  4.699739  93.994778  61.096606 130.496084 -23.49869</span></span>
+<span id="cb6-32"><a href="#cb6-32"></a><span class="co">#&gt; 5 -1.566580 -31.331593 -20.365535 -23.498695 -12.16710</span></span>
+<span id="cb6-33"><a href="#cb6-33"></a><span class="co">#&gt; </span></span>
+<span id="cb6-34"><a href="#cb6-34"></a><span class="co">#&gt; $est.tot</span></span>
+<span id="cb6-35"><a href="#cb6-35"></a><span class="co">#&gt; [1] 112.4595</span></span>
+<span id="cb6-36"><a href="#cb6-36"></a><span class="co">#&gt; </span></span>
+<span id="cb6-37"><a href="#cb6-37"></a><span class="co">#&gt; $Vest.tot</span></span>
+<span id="cb6-38"><a href="#cb6-38"></a><span class="co">#&gt; [1] 782.5796</span></span></code></pre></div>
 <ol start="3" style="list-style-type: decimal">
 <li>Example from the help page, but informing sample means and sample size instead of sample observations</li>
 </ol>
@@ -462,40 +461,39 @@ i,j = 1,...,N \hspace{0.5cm} \forall i \neq j
 <span id="cb7-6"><a href="#cb7-6"></a>v &lt;-<span class="st"> </span><span class="dv">10</span></span>
 <span id="cb7-7"><a href="#cb7-7"></a>sigma &lt;-<span class="st"> </span><span class="dv">2</span></span>
 <span id="cb7-8"><a href="#cb7-8"></a></span>
-<span id="cb7-9"><a href="#cb7-9"></a></span>
-<span id="cb7-10"><a href="#cb7-10"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_Ratio</span>(ys, xs, x_nots, m, v, sigma, n)</span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt; Warning in BLE_Ratio(ys, xs, x_nots, m, v, sigma, n): sample means informed</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="co">#&gt; instead of sample observations, parameters &#39;n&#39; and &#39;sigma&#39; will be necessary</span></span>
-<span id="cb7-13"><a href="#cb7-13"></a>Estimator</span>
-<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt; $est.beta</span></span>
-<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt;       Beta</span></span>
-<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; 1 2.010444</span></span>
-<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; </span></span>
-<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; $Vest.beta</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt;          V1</span></span>
-<span id="cb7-20"><a href="#cb7-20"></a><span class="co">#&gt; 1 0.3133159</span></span>
-<span id="cb7-21"><a href="#cb7-21"></a><span class="co">#&gt; </span></span>
-<span id="cb7-22"><a href="#cb7-22"></a><span class="co">#&gt; $est.mean</span></span>
-<span id="cb7-23"><a href="#cb7-23"></a><span class="co">#&gt;       y_nots</span></span>
-<span id="cb7-24"><a href="#cb7-24"></a><span class="co">#&gt; 1   2.010444</span></span>
-<span id="cb7-25"><a href="#cb7-25"></a><span class="co">#&gt; 2  40.208877</span></span>
-<span id="cb7-26"><a href="#cb7-26"></a><span class="co">#&gt; 3  26.135770</span></span>
-<span id="cb7-27"><a href="#cb7-27"></a><span class="co">#&gt; 4  30.156658</span></span>
-<span id="cb7-28"><a href="#cb7-28"></a><span class="co">#&gt; 5 -10.052219</span></span>
-<span id="cb7-29"><a href="#cb7-29"></a><span class="co">#&gt; </span></span>
-<span id="cb7-30"><a href="#cb7-30"></a><span class="co">#&gt; $Vest.mean</span></span>
-<span id="cb7-31"><a href="#cb7-31"></a><span class="co">#&gt;          V1         V2         V3         V4        V5</span></span>
-<span id="cb7-32"><a href="#cb7-32"></a><span class="co">#&gt; 1  4.313316   6.266319   4.073107   4.699739  -1.56658</span></span>
-<span id="cb7-33"><a href="#cb7-33"></a><span class="co">#&gt; 2  6.266319 205.326371  81.462141  93.994778 -31.33159</span></span>
-<span id="cb7-34"><a href="#cb7-34"></a><span class="co">#&gt; 3  4.073107  81.462141 104.950392  61.096606 -20.36554</span></span>
-<span id="cb7-35"><a href="#cb7-35"></a><span class="co">#&gt; 4  4.699739  93.994778  61.096606 130.496084 -23.49869</span></span>
-<span id="cb7-36"><a href="#cb7-36"></a><span class="co">#&gt; 5 -1.566580 -31.331593 -20.365535 -23.498695 -12.16710</span></span>
-<span id="cb7-37"><a href="#cb7-37"></a><span class="co">#&gt; </span></span>
-<span id="cb7-38"><a href="#cb7-38"></a><span class="co">#&gt; $est.tot</span></span>
-<span id="cb7-39"><a href="#cb7-39"></a><span class="co">#&gt; [1] 112.4595</span></span>
-<span id="cb7-40"><a href="#cb7-40"></a><span class="co">#&gt; </span></span>
-<span id="cb7-41"><a href="#cb7-41"></a><span class="co">#&gt; $Vest.tot</span></span>
-<span id="cb7-42"><a href="#cb7-42"></a><span class="co">#&gt; [1] 782.5796</span></span></code></pre></div>
+<span id="cb7-9"><a href="#cb7-9"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_Ratio</span>(ys, xs, x_nots, m, v, sigma, n)</span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="co">#&gt; Warning in BLE_Ratio(ys, xs, x_nots, m, v, sigma, n): sample means informed</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co">#&gt; instead of sample observations, parameters &#39;n&#39; and &#39;sigma&#39; will be necessary</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a>Estimator</span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="co">#&gt; $est.beta</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a><span class="co">#&gt;       Beta</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co">#&gt; 1 2.010444</span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co">#&gt; </span></span>
+<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; $Vest.beta</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt;          V1</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; 1 0.3133159</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a><span class="co">#&gt; </span></span>
+<span id="cb7-21"><a href="#cb7-21"></a><span class="co">#&gt; $est.mean</span></span>
+<span id="cb7-22"><a href="#cb7-22"></a><span class="co">#&gt;       y_nots</span></span>
+<span id="cb7-23"><a href="#cb7-23"></a><span class="co">#&gt; 1   2.010444</span></span>
+<span id="cb7-24"><a href="#cb7-24"></a><span class="co">#&gt; 2  40.208877</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a><span class="co">#&gt; 3  26.135770</span></span>
+<span id="cb7-26"><a href="#cb7-26"></a><span class="co">#&gt; 4  30.156658</span></span>
+<span id="cb7-27"><a href="#cb7-27"></a><span class="co">#&gt; 5 -10.052219</span></span>
+<span id="cb7-28"><a href="#cb7-28"></a><span class="co">#&gt; </span></span>
+<span id="cb7-29"><a href="#cb7-29"></a><span class="co">#&gt; $Vest.mean</span></span>
+<span id="cb7-30"><a href="#cb7-30"></a><span class="co">#&gt;          V1         V2         V3         V4        V5</span></span>
+<span id="cb7-31"><a href="#cb7-31"></a><span class="co">#&gt; 1  4.313316   6.266319   4.073107   4.699739  -1.56658</span></span>
+<span id="cb7-32"><a href="#cb7-32"></a><span class="co">#&gt; 2  6.266319 205.326371  81.462141  93.994778 -31.33159</span></span>
+<span id="cb7-33"><a href="#cb7-33"></a><span class="co">#&gt; 3  4.073107  81.462141 104.950392  61.096606 -20.36554</span></span>
+<span id="cb7-34"><a href="#cb7-34"></a><span class="co">#&gt; 4  4.699739  93.994778  61.096606 130.496084 -23.49869</span></span>
+<span id="cb7-35"><a href="#cb7-35"></a><span class="co">#&gt; 5 -1.566580 -31.331593 -20.365535 -23.498695 -12.16710</span></span>
+<span id="cb7-36"><a href="#cb7-36"></a><span class="co">#&gt; </span></span>
+<span id="cb7-37"><a href="#cb7-37"></a><span class="co">#&gt; $est.tot</span></span>
+<span id="cb7-38"><a href="#cb7-38"></a><span class="co">#&gt; [1] 112.4595</span></span>
+<span id="cb7-39"><a href="#cb7-39"></a><span class="co">#&gt; </span></span>
+<span id="cb7-40"><a href="#cb7-40"></a><span class="co">#&gt; $Vest.tot</span></span>
+<span id="cb7-41"><a href="#cb7-41"></a><span class="co">#&gt; [1] 782.5796</span></span></code></pre></div>
 </div>
 </div>
 

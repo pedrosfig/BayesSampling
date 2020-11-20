@@ -57,7 +57,6 @@ sigma <- 1
 Estimator <- BLE_SRS(ys, N, m, v, sigma, n)
 Estimator
 
-
 }
 \references{
 Gonçalves, K.C.M, Moura, F.A.S and  Migon, H.S.(2014). Bayes Linear Estimation for Finite Population with emphasis on categorical data. Survey Methodology, 40, 15-28.

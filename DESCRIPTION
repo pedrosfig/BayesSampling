@@ -1,8 +1,8 @@
 Package: BayesSampling
 Type: Package
 Title: Bayes Linear Estimators for Finite Population
-Version: 1.0.0
-Date: 2020-04-13
+Version: 1.0.1
+Date: 2020-11-20
 Authors@R: c(person("Pedro", "Soares Figueiredo", 
                      role = c("aut", "cre"),
                      email = "pedrosfig@hotmail.com",
