@@ -24,12 +24,12 @@ library(BayesSampling)
 
 In a simple model, where there is no auxiliary variable, and a Simple Random Sample was taken from the population, we can calculate the Bayes Linear Estimator for the individuals of the population with the _BLE_SRS()_ function, which receives the following parameters:  
 
-* $y_s$ - a vector containing the observed values;
+* $y_s$ - either a vector containing the observed values or just the value for the sample mean ($\sigma$ and $n$ parameters will be required in this case);
 * $N$ - total size of the population;
-* $m$ - prior mean. If NULL, sample mean will be used (non-informative prior);
-* $v$ - prior variance of an element from the population ($> \sigma^2$). If NULL, it will tend to infinity (non-informative prior);
-* $\sigma$ - prior estimate of variability (standard deviation) within the population. If NULL, sample variance will be used.
-
+* $m$ - prior mean. If _NULL_, sample mean will be used (non-informative prior);
+* $v$ - prior variance of an element from the population ($> \sigma^2$). If _NULL_, it will tend to infinity (non-informative prior);
+* $\sigma$ - prior estimate of variability (standard deviation) within the population. If _NULL_, sample variance will be used;
+* $n$ - sample size. Necessary only if $y_s$ represent sample mean (will not be used otherwise).
 
 ### Vague Prior Distribuition
 
@@ -37,8 +37,8 @@ Letting $v \to \infty$ and keeping $\sigma^2$ fixed, that is, assuming prior ign
 
 This can be achieved using the _BLE_SRS()_ function by omitting either the prior mean and/or the prior variance, that is:
 
-* $m = NULL$ - the sample mean will be used;
-* $v = NULL$ - prior variance will tend to infinity.
+* $m =$ _NULL_ - the sample mean will be used
+* $v =$ _NULL_ - prior variance will tend to infinity
 
 
 ### Examples
@@ -81,18 +81,29 @@ Estimator$Vest.mean[1:5,1:5]
 
 ```{r ex 2}
 ys <- c(5,6,8)
+N <- 5
 m <- 6
 v <- 5
 sigma <- 1
-N <- 5
 
-Estimator <- BLE_SRS(ys,N,m,v,sigma)
+Estimator <- BLE_SRS(ys, N, m, v, sigma)
 Estimator
 ```
 
 
 
+3. Example from the help page, but informing sample mean and sample size instead of sample observations
 
+```{r ex 3}
+ys <- mean(c(5,6,8))
+n <- 3
+N <- 5
+m <- 6
+v <- 5
+sigma <- 1
 
+Estimator <- BLE_SRS(ys, N, m, v, sigma, n)
+Estimator
+```
 
 

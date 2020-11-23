@@ -26,12 +26,12 @@ BLE_Reg(ys, xs, a, R, Vs, x_nots, V_nots)
 }
 \value{
 A list containing the following components: \itemize{
-\item est.beta - BLE of Beta
-\item Vest.beta - Variance associated with the above
-\item est.mean - BLE of each individual not in the sample
-\item Vest.mean - Covariance matrix associated with the above
-\item est.tot - BLE for the total
-\item Vest.tot - Variance associated with the above
+\item \code{est.beta} - BLE of Beta
+\item \code{Vest.beta} - Variance associated with the above
+\item \code{est.mean} - BLE of each individual not in the sample
+\item \code{Vest.mean} - Covariance matrix associated with the above
+\item \code{est.tot} - BLE for the total
+\item \code{Vest.tot} - Variance associated with the above
 }
 }
 \description{
@@ -46,7 +46,7 @@ R <- matrix(c(10,2,2,10),nrow=2,ncol=2)
 Vs <- diag(c(1,1,1,1))
 V_nots <- diag(c(1,1,1))
 
-Estimator <- BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots)
+Estimator <- BLE_Reg(ys, xs, a, R, Vs, x_nots, V_nots)
 Estimator
 
 }

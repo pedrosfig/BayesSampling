@@ -10,17 +10,17 @@
 BLE_SSRS(ys, h, N, m = NULL, v = NULL, sigma = NULL)
 }
 \arguments{
-\item{ys}{vector of sample observations.}
+\item{ys}{vector of sample observations or sample mean for each strata (\code{sigma} parameter will be required in this case).}
 
 \item{h}{vector with number of observations in each strata.}
 
 \item{N}{vector with the total size of each strata.}
 
-\item{m}{vector with the prior mean of each strata. If NULL, sample mean for each strata will be used (non-informative prior).}
+\item{m}{vector with the prior mean of each strata. If \code{NULL}, sample mean for each strata will be used (non-informative prior).}
 
-\item{v}{vector with the prior variance of an element from each strata (bigger than sigma^2 for each strata). If NULL, it will tend to infinity (non-informative prior).}
+\item{v}{vector with the prior variance of an element from each strata (bigger than \code{sigma^2} for each strata). If \code{NULL}, it will tend to infinity (non-informative prior).}
 
-\item{sigma}{vector with the prior estimate of variability (standard deviation) within each strata of the population. If NULL, sample variance of each strata will be used.}
+\item{sigma}{vector with the prior estimate of variability (standard deviation) within each strata of the population. If \code{NULL}, sample variance of each strata will be used.}
 }
 \value{
 A list containing the following components: \itemize{
@@ -38,13 +38,29 @@ Creates the Bayes Linear Estimator for the Stratified Simple Random Sampling des
 \examples{
 ys <- c(2,-1,1.5, 6,10, 8,8)
 h <- c(3,2,2)
+N <- c(5,5,3)
 m <- c(0,9,8)
 v <- c(3,8,1)
 sigma <- c(1,2,0.5)
-N <- c(5,5,3)
 
-Estimator <- BLE_SSRS(ys,h,N,m,v,sigma)
+Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
 Estimator
+
+
+# Same example but informing sample means instead of sample observations
+y1 <- mean(c(2,-1,1.5))
+y2 <- mean(c(6,10))
+y3 <- mean(c(8,8))
+ys <- c(y1, y2, y3)
+h <- c(3,2,2)
+N <- c(5,5,3)
+m <- c(0,9,8)
+v <- c(3,8,1)
+sigma <- c(1,2,0.5)
+
+Estimator <- BLE_SSRS(ys, h, N, m, v, sigma)
+Estimator
+
 }
 \references{
 Gonçalves, K.C.M, Moura, F.A.S and  Migon, H.S.(2014). Bayes Linear Estimation for Finite Population with emphasis on categorical data. Survey Methodology, 40, 15-28.

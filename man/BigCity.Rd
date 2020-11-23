@@ -4,7 +4,8 @@
 \name{BigCity}
 \alias{BigCity}
 \title{Full Person-level Population Database}
-\format{A data.frame with 150266 rows and 12 variables:
+\format{
+A data.frame with 150266 rows and 12 variables:
 \describe{
 \item{HHID}{The identifier of the household. It corresponds to an alphanumeric sequence (four letters and five digits).}
 \item{PersonID}{The identifier of the person within the household. NOTE it is not a unique identifier of a person for the whole population. It corresponds to an alphanumeric sequence (five letters and two digits).}
@@ -16,7 +17,8 @@
 \item{Expenditure}{Per capita monthly expenditure.}
 \item{Employment}{A person's employment status.}
 \item{Poverty}{This variable indicates whether the person is poor or not. It depends on income.}
-}}
+}
+}
 \source{
 \url{https://CRAN.R-project.org/package=TeachingSampling}
 }

@@ -8,19 +8,35 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
 
 <title>BLE_SRS</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -30,14 +46,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -46,9 +64,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -115,9 +133,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -286,7 +301,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -303,18 +319,19 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(BayesSampling)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(BayesSampling)</span></code></pre></div>
 <div id="application-of-the-ble-to-the-simple-random-sample-design" class="section level1">
 <h1>Application of the BLE to the Simple Random Sample design</h1>
 <div id="from-section-2.3.1-of-the-gonçalves-moura-and-migon-bayes-linear-estimation-for-finite-population-with-emphasis-on-categorical-data" class="section level3">
 <h3>(From Section 2.3.1 of the “<a href="https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886">Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data</a>”)</h3>
 <p>In a simple model, where there is no auxiliary variable, and a Simple Random Sample was taken from the population, we can calculate the Bayes Linear Estimator for the individuals of the population with the <em>BLE_SRS()</em> function, which receives the following parameters:</p>
 <ul>
-<li><span class="math inline">\(y_s\)</span> - a vector containing the observed values;</li>
+<li><span class="math inline">\(y_s\)</span> - either a vector containing the observed values or just the value for the sample mean (<span class="math inline">\(\sigma\)</span> and <span class="math inline">\(n\)</span> parameters will be required in this case);</li>
 <li><span class="math inline">\(N\)</span> - total size of the population;</li>
-<li><span class="math inline">\(m\)</span> - prior mean. If NULL, sample mean will be used (non-informative prior);</li>
-<li><span class="math inline">\(v\)</span> - prior variance of an element from the population (<span class="math inline">\(&gt; \sigma^2\)</span>). If NULL, it will tend to infinity (non-informative prior);</li>
-<li><span class="math inline">\(\sigma\)</span> - prior estimate of variability (standard deviation) within the population. If NULL, sample variance will be used.</li>
+<li><span class="math inline">\(m\)</span> - prior mean. If <em>NULL</em>, sample mean will be used (non-informative prior);</li>
+<li><span class="math inline">\(v\)</span> - prior variance of an element from the population (<span class="math inline">\(&gt; \sigma^2\)</span>). If <em>NULL</em>, it will tend to infinity (non-informative prior);</li>
+<li><span class="math inline">\(\sigma\)</span> - prior estimate of variability (standard deviation) within the population. If <em>NULL</em>, sample variance will be used;</li>
+<li><span class="math inline">\(n\)</span> - sample size. Necessary only if <span class="math inline">\(y_s\)</span> represent sample mean (will not be used otherwise).</li>
 </ul>
 </div>
 <div id="vague-prior-distribuition" class="section level3">
@@ -322,8 +339,8 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <p>Letting <span class="math inline">\(v \to \infty\)</span> and keeping <span class="math inline">\(\sigma^2\)</span> fixed, that is, assuming prior ignorance, the resulting estimator will be the same as the one seen in the disgn-based context for the simple random sampling case. </p>
 <p>This can be achieved using the <em>BLE_SRS()</em> function by omitting either the prior mean and/or the prior variance, that is:</p>
 <ul>
-<li><span class="math inline">\(m = NULL\)</span> - the sample mean will be used;</li>
-<li><span class="math inline">\(v = NULL\)</span> - prior variance will tend to infinity.</li>
+<li><span class="math inline">\(m =\)</span> <em>NULL</em> - the sample mean will be used</li>
+<li><span class="math inline">\(v =\)</span> <em>NULL</em> - prior variance will tend to infinity</li>
 </ul>
 </div>
 <div id="examples" class="section level3">
@@ -331,67 +348,104 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <ol style="list-style-type: decimal">
 <li>We will use the TeachingSampling’s BigCity dataset for this example (actually we have to take a sample of size <span class="math inline">\(10000\)</span> from this dataset so that R can perform the calculations). Imagine that we want to estimate the mean or the total Expenditure of this population, after taking a simple random sample of only 20 individuals, but applying a prior information (taken from a previous study or an expert’s judgment) about the mean expenditure (a priori mean = <span class="math inline">\(300\)</span>).</li>
 </ol>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw">data</span>(BigCity)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw">set.seed</span>(<span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb2-3" title="3">Expend &lt;-<span class="st"> </span><span class="kw">sample</span>(BigCity<span class="op">$</span>Expenditure,<span class="dv">10000</span>)</a>
-<a class="sourceLine" id="cb2-4" title="4"><span class="kw">mean</span>(Expend)          <span class="co">#Real mean expenditure value, goal of the estimation</span></a>
-<a class="sourceLine" id="cb2-5" title="5"><span class="co">#&gt; [1] 375.586</span></a>
-<a class="sourceLine" id="cb2-6" title="6">ys &lt;-<span class="st"> </span><span class="kw">sample</span>(Expend, <span class="dt">size =</span> <span class="dv">20</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">data</span>(BigCity)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>Expend &lt;-<span class="st"> </span><span class="kw">sample</span>(BigCity<span class="op">$</span>Expenditure,<span class="dv">10000</span>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">mean</span>(Expend)          <span class="co">#Real mean expenditure value, goal of the estimation</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; [1] 375.586</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>ys &lt;-<span class="st"> </span><span class="kw">sample</span>(Expend, <span class="dt">size =</span> <span class="dv">20</span>, <span class="dt">replace =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p>Our design-based estimator for the mean will be the sample mean:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw">mean</span>(ys)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="co">#&gt; [1] 479.869</span></a></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">mean</span>(ys)</span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; [1] 479.869</span></span></code></pre></div>
 <p>Applying the prior information about the population we can get a better estimate, especially in cases when only a small sample is available:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">Estimator &lt;-<span class="st"> </span><span class="kw">BLE_SRS</span>(ys, <span class="dt">N =</span> <span class="dv">10000</span>, <span class="dt">m=</span><span class="dv">300</span>, <span class="dt">v=</span><span class="fl">10.1</span><span class="op">^</span><span class="dv">5</span>, <span class="dt">sigma =</span> <span class="kw">sqrt</span>(<span class="dv">10</span><span class="op">^</span><span class="dv">5</span>))</a>
-<a class="sourceLine" id="cb4-2" title="2"></a>
-<a class="sourceLine" id="cb4-3" title="3">Estimator<span class="op">$</span>est.beta</a>
-<a class="sourceLine" id="cb4-4" title="4"><span class="co">#&gt;       Beta</span></a>
-<a class="sourceLine" id="cb4-5" title="5"><span class="co">#&gt; 1 390.8338</span></a>
-<a class="sourceLine" id="cb4-6" title="6">Estimator<span class="op">$</span>Vest.beta</a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="co">#&gt;         V1</span></a>
-<a class="sourceLine" id="cb4-8" title="8"><span class="co">#&gt; 1 2524.999</span></a>
-<a class="sourceLine" id="cb4-9" title="9">Estimator<span class="op">$</span>est.mean[<span class="dv">1</span>,]</a>
-<a class="sourceLine" id="cb4-10" title="10"><span class="co">#&gt; [1] 390.8338</span></a>
-<a class="sourceLine" id="cb4-11" title="11">Estimator<span class="op">$</span>Vest.mean[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a>
-<a class="sourceLine" id="cb4-12" title="12"><span class="co">#&gt;           V1         V2         V3         V4         V5</span></a>
-<a class="sourceLine" id="cb4-13" title="13"><span class="co">#&gt; 1 102524.999   2524.999   2524.999   2524.999   2524.999</span></a>
-<a class="sourceLine" id="cb4-14" title="14"><span class="co">#&gt; 2   2524.999 102524.999   2524.999   2524.999   2524.999</span></a>
-<a class="sourceLine" id="cb4-15" title="15"><span class="co">#&gt; 3   2524.999   2524.999 102524.999   2524.999   2524.999</span></a>
-<a class="sourceLine" id="cb4-16" title="16"><span class="co">#&gt; 4   2524.999   2524.999   2524.999 102524.999   2524.999</span></a>
-<a class="sourceLine" id="cb4-17" title="17"><span class="co">#&gt; 5   2524.999   2524.999   2524.999   2524.999 102524.999</span></a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_SRS</span>(ys, <span class="dt">N =</span> <span class="dv">10000</span>, <span class="dt">m=</span><span class="dv">300</span>, <span class="dt">v=</span><span class="fl">10.1</span><span class="op">^</span><span class="dv">5</span>, <span class="dt">sigma =</span> <span class="kw">sqrt</span>(<span class="dv">10</span><span class="op">^</span><span class="dv">5</span>))</span>
+<span id="cb4-2"><a href="#cb4-2"></a></span>
+<span id="cb4-3"><a href="#cb4-3"></a>Estimator<span class="op">$</span>est.beta</span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;       Beta</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt; 1 390.8338</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>Estimator<span class="op">$</span>Vest.beta</span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;         V1</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt; 1 2524.999</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a>Estimator<span class="op">$</span>est.mean[<span class="dv">1</span>,]</span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt; [1] 390.8338</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a>Estimator<span class="op">$</span>Vest.mean[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>,<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;           V1         V2         V3         V4         V5</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt; 1 102524.999   2524.999   2524.999   2524.999   2524.999</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; 2   2524.999 102524.999   2524.999   2524.999   2524.999</span></span>
+<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; 3   2524.999   2524.999 102524.999   2524.999   2524.999</span></span>
+<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; 4   2524.999   2524.999   2524.999 102524.999   2524.999</span></span>
+<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt; 5   2524.999   2524.999   2524.999   2524.999 102524.999</span></span></code></pre></div>
 <ol start="2" style="list-style-type: decimal">
 <li>Example from the help page</li>
 </ol>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">ys &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2">m &lt;-<span class="st"> </span><span class="dv">6</span></a>
-<a class="sourceLine" id="cb5-3" title="3">v &lt;-<span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb5-4" title="4">sigma &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb5-5" title="5">N &lt;-<span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb5-6" title="6"></a>
-<a class="sourceLine" id="cb5-7" title="7">Estimator &lt;-<span class="st"> </span><span class="kw">BLE_SRS</span>(ys,N,m,v,sigma)</a>
-<a class="sourceLine" id="cb5-8" title="8">Estimator</a>
-<a class="sourceLine" id="cb5-9" title="9"><span class="co">#&gt; $est.beta</span></a>
-<a class="sourceLine" id="cb5-10" title="10"><span class="co">#&gt;       Beta</span></a>
-<a class="sourceLine" id="cb5-11" title="11"><span class="co">#&gt; 1 6.307692</span></a>
-<a class="sourceLine" id="cb5-12" title="12"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-13" title="13"><span class="co">#&gt; $Vest.beta</span></a>
-<a class="sourceLine" id="cb5-14" title="14"><span class="co">#&gt;          V1</span></a>
-<a class="sourceLine" id="cb5-15" title="15"><span class="co">#&gt; 1 0.3076923</span></a>
-<a class="sourceLine" id="cb5-16" title="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-17" title="17"><span class="co">#&gt; $est.mean</span></a>
-<a class="sourceLine" id="cb5-18" title="18"><span class="co">#&gt;     y_nots</span></a>
-<a class="sourceLine" id="cb5-19" title="19"><span class="co">#&gt; 1 6.307692</span></a>
-<a class="sourceLine" id="cb5-20" title="20"><span class="co">#&gt; 2 6.307692</span></a>
-<a class="sourceLine" id="cb5-21" title="21"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-22" title="22"><span class="co">#&gt; $Vest.mean</span></a>
-<a class="sourceLine" id="cb5-23" title="23"><span class="co">#&gt;          V1        V2</span></a>
-<a class="sourceLine" id="cb5-24" title="24"><span class="co">#&gt; 1 1.3076923 0.3076923</span></a>
-<a class="sourceLine" id="cb5-25" title="25"><span class="co">#&gt; 2 0.3076923 1.3076923</span></a>
-<a class="sourceLine" id="cb5-26" title="26"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-27" title="27"><span class="co">#&gt; $est.tot</span></a>
-<a class="sourceLine" id="cb5-28" title="28"><span class="co">#&gt; [1] 31.61538</span></a>
-<a class="sourceLine" id="cb5-29" title="29"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb5-30" title="30"><span class="co">#&gt; $Vest.tot</span></a>
-<a class="sourceLine" id="cb5-31" title="31"><span class="co">#&gt; [1] 3.230769</span></a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>ys &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>N &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>m &lt;-<span class="st"> </span><span class="dv">6</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a>v &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a>sigma &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a></span>
+<span id="cb5-7"><a href="#cb5-7"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_SRS</span>(ys, N, m, v, sigma)</span>
+<span id="cb5-8"><a href="#cb5-8"></a>Estimator</span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; $est.beta</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt;       Beta</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; 1 6.307692</span></span>
+<span id="cb5-12"><a href="#cb5-12"></a><span class="co">#&gt; </span></span>
+<span id="cb5-13"><a href="#cb5-13"></a><span class="co">#&gt; $Vest.beta</span></span>
+<span id="cb5-14"><a href="#cb5-14"></a><span class="co">#&gt;          V1</span></span>
+<span id="cb5-15"><a href="#cb5-15"></a><span class="co">#&gt; 1 0.3076923</span></span>
+<span id="cb5-16"><a href="#cb5-16"></a><span class="co">#&gt; </span></span>
+<span id="cb5-17"><a href="#cb5-17"></a><span class="co">#&gt; $est.mean</span></span>
+<span id="cb5-18"><a href="#cb5-18"></a><span class="co">#&gt;     y_nots</span></span>
+<span id="cb5-19"><a href="#cb5-19"></a><span class="co">#&gt; 1 6.307692</span></span>
+<span id="cb5-20"><a href="#cb5-20"></a><span class="co">#&gt; 2 6.307692</span></span>
+<span id="cb5-21"><a href="#cb5-21"></a><span class="co">#&gt; </span></span>
+<span id="cb5-22"><a href="#cb5-22"></a><span class="co">#&gt; $Vest.mean</span></span>
+<span id="cb5-23"><a href="#cb5-23"></a><span class="co">#&gt;          V1        V2</span></span>
+<span id="cb5-24"><a href="#cb5-24"></a><span class="co">#&gt; 1 1.3076923 0.3076923</span></span>
+<span id="cb5-25"><a href="#cb5-25"></a><span class="co">#&gt; 2 0.3076923 1.3076923</span></span>
+<span id="cb5-26"><a href="#cb5-26"></a><span class="co">#&gt; </span></span>
+<span id="cb5-27"><a href="#cb5-27"></a><span class="co">#&gt; $est.tot</span></span>
+<span id="cb5-28"><a href="#cb5-28"></a><span class="co">#&gt; [1] 31.61538</span></span>
+<span id="cb5-29"><a href="#cb5-29"></a><span class="co">#&gt; </span></span>
+<span id="cb5-30"><a href="#cb5-30"></a><span class="co">#&gt; $Vest.tot</span></span>
+<span id="cb5-31"><a href="#cb5-31"></a><span class="co">#&gt; [1] 3.230769</span></span></code></pre></div>
+<ol start="3" style="list-style-type: decimal">
+<li>Example from the help page, but informing sample mean and sample size instead of sample observations</li>
+</ol>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>ys &lt;-<span class="st"> </span><span class="kw">mean</span>(<span class="kw">c</span>(<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">8</span>))</span>
+<span id="cb6-2"><a href="#cb6-2"></a>n &lt;-<span class="st"> </span><span class="dv">3</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a>N &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a>m &lt;-<span class="st"> </span><span class="dv">6</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a>v &lt;-<span class="st"> </span><span class="dv">5</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>sigma &lt;-<span class="st"> </span><span class="dv">1</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a>Estimator &lt;-<span class="st"> </span><span class="kw">BLE_SRS</span>(ys, N, m, v, sigma, n)</span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt; Warning in BLE_SRS(ys, N, m, v, sigma, n): sample mean informed instead of</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt; sample observations, parameters &#39;n&#39; and &#39;sigma&#39; will be necessary</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a>Estimator</span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt; $est.beta</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt;       Beta</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; 1 6.307692</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt; </span></span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; $Vest.beta</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt;          V1</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt; 1 0.3076923</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt; </span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt; $est.mean</span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt;     y_nots</span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt; 1 6.307692</span></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt; 2 6.307692</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt; </span></span>
+<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt; $Vest.mean</span></span>
+<span id="cb6-26"><a href="#cb6-26"></a><span class="co">#&gt;          V1        V2</span></span>
+<span id="cb6-27"><a href="#cb6-27"></a><span class="co">#&gt; 1 1.3076923 0.3076923</span></span>
+<span id="cb6-28"><a href="#cb6-28"></a><span class="co">#&gt; 2 0.3076923 1.3076923</span></span>
+<span id="cb6-29"><a href="#cb6-29"></a><span class="co">#&gt; </span></span>
+<span id="cb6-30"><a href="#cb6-30"></a><span class="co">#&gt; $est.tot</span></span>
+<span id="cb6-31"><a href="#cb6-31"></a><span class="co">#&gt; [1] 31.61538</span></span>
+<span id="cb6-32"><a href="#cb6-32"></a><span class="co">#&gt; </span></span>
+<span id="cb6-33"><a href="#cb6-33"></a><span class="co">#&gt; $Vest.tot</span></span>
+<span id="cb6-34"><a href="#cb6-34"></a><span class="co">#&gt; [1] 3.230769</span></span></code></pre></div>
 </div>
 </div>
 
