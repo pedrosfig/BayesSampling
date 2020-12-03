@@ -2,11 +2,11 @@
 #'
 #' Creates the Bayes Linear Estimator for Categorical Data
 #'
-#' @param ys (k)-vector of sample proportions for each category.
+#' @param ys k-vector of sample proportion for each category.
 #' @param n sample size.
 #' @param N total size of the population.
 #' @param m (k-1)-vector with the prior proportion of each strata. If NULL, sample proportion for each strata will be used (non-informative prior).
-#' @param v vector with the prior variance - NÃO VAI TER
+#' @param rho matrix with the prior correlation coefficients between two different units within categories. It must be a symmetric square matrix of dimension k.
 #' @param sigma vector with the prior estimate of variability (standard deviation) within each strata of the population. If NULL, sample variance of each strata will be used.
 #'
 #' @return A list containing the following components: \itemize{
@@ -29,21 +29,27 @@
 #' sigma <- c(1,2,0.5)
 #' N <- c(5,5,3)
 #'
-#' Estimator <- BLE_SSRS(ys,h,N,m,v,sigma)
+#' Estimator <- BLE_SSRS(ys,h,N,m,rho,sigma)
 #' Estimator
 #' @export
-BLE_SSRS <- function(ys, h, N, m=NULL,v=NULL,sigma=NULL){
+BLE_Categorical <- function(ys, h, N, m=NULL, rho=NULL, sigma=NULL){
 
   war_1 <- "parameter 'm' (prior proportions) not informed, sample proprotions used in estimations"
   war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
-  war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
-
-
-  # ys <- ys[-length(ys)] #retirando a observação da ultima categoria (se ys tiver tamanho k)
-  # if(k == 1){stop("only 1 category defined, usar função da media amostral")}                  ###### ajustar
+  
 
   k <- length(ys)
-
+  if(k == 1){stop("only 1 category defined")}
+  
+  if(sum(ys) != 1){stop("sum of sample proportions should be 1")}
+  
+  ys <- ys[-k]      #retirando a observação da ultima categoria
+  
+  
+  
+  if( ! is.symmetric.matrix(pho) ){stop("rho must be a symmetric square matrix")}
+  
+  
 
   # marker <- c(1)   #diz onde começam as obs de cada estrato
   # for(i in 2:H){
