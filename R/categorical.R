@@ -5,7 +5,7 @@
 #' @param ys k-vector of sample proportion for each category.
 #' @param n sample size.
 #' @param N total size of the population.
-#' @param m (k-1)-vector with the prior proportion of each strata. If NULL, sample proportion for each strata will be used (non-informative prior).
+#' @param m k-vector with the prior proportion of each strata. If NULL, sample proportion for each strata will be used (non-informative prior).
 #' @param rho matrix with the prior correlation coefficients between two different units within categories. It must be a symmetric square matrix of dimension k.
 #' @param sigma vector with the prior estimate of variability (standard deviation) within each strata of the population. If NULL, sample variance of each strata will be used.
 #'
@@ -44,66 +44,53 @@ BLE_Categorical <- function(ys, h, N, m=NULL, rho=NULL, sigma=NULL){
   if(sum(ys) != 1){stop("sum of sample proportions should be 1")}
   
   ys <- ys[-k]      #retirando a observação da ultima categoria
+  m <- m[-k]        #retirando a priori da ultima categoria
   
   
   
-  if( ! is.symmetric.matrix(pho) ){stop("rho must be a symmetric square matrix")}
+  if( ! is.symmetric.matrix(rho) ){stop("rho must be a symmetric square matrix")}
   
   
-
-  # marker <- c(1)   #diz onde começam as obs de cada estrato
-  # for(i in 2:H){
-  #   marker <- c(marker, marker[i-1] + h[i-1])
-  # }
-  #
-  # if (is.null(m)){
-  #   warning(war_1)
-  #   m <- c(mean(ys[1:h[1]]))
-  #   for(i in 2:H-1){
-  #     M <- mean(ys[marker[i]:(marker[i+1] - 1)])
-  #     m <- c(m, M)
-  #   }
-  #   M <- mean(ys[marker[H] : length(ys)])
-  #   m <- c(m, M)
-  # }
-  #
-  #
-  # if(is.null(sigma)){
-  #   warning(war_2)
-  #   s <- c(var(ys[1:h[1]]))
-  #   for(i in 2:H-1){
-  #     S <- var(ys[marker[i]:(marker[i+1] - 1)])
-  #     s <- c(s, S)
-  #   }
-  #   S <- var(ys[marker[H] : length(ys)])
-  #   s <- c(s, S)
-  #   sigma <- sqrt(s)
-  # }
-  #
-  # if(is.null(v)){
-  #   warning(war_3)
-  #   v <- c()
-  #   for(i in 1:H){
-  #     V <- 10^100 * m[i]
-  #     v <- c(v, V)
-  #   }
-  # }
-  #
-  # for (i in 1:H) {
-  #   if(v[i] < sigma[i]^2){
-  #     stop("prior variance (parameter 'v') too small")
-  #   }
-  #
-  # }
-
+  m_ij <- matrix(0, nrow = k, ncol = k)
+  
+  for (i in 1:(k-1)) {
+    for (j in 1:(k-1)) {
+      m_ij[i,j] <- (m[i]*m[j] + rho[j,i]*sqrt( m[i]*(1-m[i])*m[j]*(1-m[j]) ))/m[j]
+    }
+  }
+  
+  
+  
 
   a <- m
-  v <- m*(1-m)
-  xs <- diag(k)
+  v <- m*(1-m)    # ver se é necessário !!!!
+  xs <- diag(k-1)
   c <- v - sigma^2
-  m_jj <- 1 -(sigma^2)/m
-  Vs <-
+  
+  
+  
+  # Construção do Vs
+  
+  Vs_d <- diag(x=sigma^2, nrow = k-1)
+  
+  Vs_out <- matrix(0, nrow = k-1, ncol = k-1)
+  for (i in 1:(k-1)) {
+    for (j in 1:(k-1)) {
+      Vs_out[i,j] <- (-m[i])*m_ij[j,i]
+    }
+  }
+  Vs_out <- Vs_out - Diagonal(k-1, diag(Vs_out))
+  
+  Vs <- (1/n)*(Vs_d + Vs_out)
+  
 
+  V_nots <- Vs*n/(N-n)  # checar
+  
+  
+  
+  # Construção do R   - FAZER !!!
+  
+  
 
 #
 #   out <- N-h
@@ -125,9 +112,7 @@ BLE_Categorical <- function(ys, h, N, m=NULL, rho=NULL, sigma=NULL){
 
 
 
-  V_nots <- Vs*n/(N-n)
 
-  R <- c*diag(H)
 
   return(BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots))
 
