@@ -9,6 +9,6 @@ var <- stats::var
 sample <- base::sample
 colnames <- base::colnames
 
-is.symmetric.matrix <- matrixcalc::is.symmetric.matrix()
-is.positive.definite <- matrixcalc::is.positive.definite()
+is.symmetric.matrix <- matrixcalc::is.symmetric.matrix
+is.positive.definite <- matrixcalc::is.positive.definite
 

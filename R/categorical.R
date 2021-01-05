@@ -31,26 +31,27 @@
 #' Estimator <- BLE_SSRS(ys,h,N,m,rho)
 #' Estimator
 #' @export
-BLE_Categorical <- function(ys, h, N, m=NULL, rho=NULL){
+BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
 
-  war_1 <- "parameter 'm' (prior proportions) not informed, sample proprotions used in estimations"
-  war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
-  
+  mes_1 <- "parameter 'm' (prior proportions) not informed, sample proprotions used in estimations"
+   
 
   k <- length(ys)
   if(k == 1){stop("only 1 category defined")}
   
+  if(prod(ys >= 0) != 1){stop("all sample proportions must be non-negative numbers")}
   if(sum(ys) != 1){stop("sum of sample proportions should be 1")}
   
-  ys <- ys[-k]      #retirando a observação da ultima categoria
-  m <- m[-k]        #retirando a priori da ultima categoria
-  
+  ys <- ys[-k]
+  m <- m[-k]
   
   
   if( ! is.symmetric.matrix(rho) ){stop("rho must be a symmetric square matrix")}
   
   
-  m_ij <- matrix(0, nrow = k, ncol = k)
+  # Matrix 'm_ij'
+  
+  m_ij <- matrix(0, nrow = k-1, ncol = k-1)
   
   for (i in 1:(k-1)) {
     for (j in 1:(k-1)) {
@@ -59,79 +60,58 @@ BLE_Categorical <- function(ys, h, N, m=NULL, rho=NULL){
   }
   
   
-  
 
   a <- m
-  v <- m*(1-m)    # ver se é necessário !!!!
+  v <- m*(1-m)
   c <- m * (diag(m_ij) - m)
-#  sigma <- sqrt( m*(1-diag(m_ij)) )
   sigma <- sqrt(v - c)
 
   xs <- diag(k-1)
+  x_nots <- diag(k-1)
   
   
-  # Construção do Vs
   
-  Vs_d <- diag(sigma^2, nrow = k-1)           # elements in the diagonal
+  # Matrix 'R' 
+  
+  R_d <- diag(c, nrow = k-1)                    # elements in the diagonal
+  
+  R_out <- matrix(0, nrow = k-1, ncol = k-1)
+  for (i in 1:(k-1)) {                        
+    for (j in 1:(k-1)) {
+      R_out[i,j] <- m[i] * (m_ij[j,i] - m[j])   # elements outside the diagonal
+    }
+  }
+  R_out <- R_out * (1 - diag(nrow = k-1))
+  
+  R <- R_d + R_out
+  
+  if( ! is.symmetric.matrix(R) ){stop("R must be a symmetric matrix. Review parameter 'rho'")}
+  if( ! is.positive.definite(R) ){stop("R must be a positive-definite matrix. Review parameter 'rho'")}
+  
+  
+  
+  # Matrix 'Vs'
+  
+  Vs_d <- diag(sigma^2, nrow = k-1)             # elements in the diagonal
   
   Vs_out <- matrix(0, nrow = k-1, ncol = k-1)
-  for (i in 1:(k-1)) {                        # elements outside the diagonal
+  for (i in 1:(k-1)) {                        
     for (j in 1:(k-1)) {
-      Vs_out[i,j] <- (-m[i])*m_ij[j,i]
+      Vs_out[i,j] <- (-m[i])*m_ij[j,i]          # elements outside the diagonal
     }
   }
   Vs_out <- Vs_out * (1 - diag(nrow = k-1))
   
   Vs <- (1/n)*(Vs_d + Vs_out)
-  #  if( ! is.symmetric.matrix(Vs) ){stop("Vs must be a symmetric matrix. Review parameter 'rho'")}   - proximo teste ja vai dar erro
+  
+  if( ! is.symmetric.matrix(Vs) ){stop("Vs must be a symmetric matrix. Review parameter 'rho'")}
   if( ! is.positive.definite(Vs) ){stop("Vs must be a positive-definite matrix. Review parameter 'rho'")}
   
 
-  V_nots <- Vs*n/(N-n)  # checar
+  V_nots <- Vs*n/(N-n)
   
   
   
-  # Construção do R 
-  
-  R_d <- diag(c, nrow = k-1)                  # elements in the diagonal
-  
-  R_out <- matrix(0, nrow = k-1, ncol = k-1)
-  for (i in 1:(k-1)) {                        # elements outside the diagonal
-    for (j in 1:(k-1)) {
-      R_out[i,j] <- m[i] * (m_ij[j,i] - m[j])
-    }
-  }
-  R_out <- R_out * (1 - diag(nrow = k-1))
-  
-  R <- (1/n)*(R_d + R_out)
-  #  if( ! is.symmetric.matrix(R) ){stop("R must be a symmetric matrix. Review parameter 'rho'")}   - proximo teste ja vai dar erro
-  if( ! is.positive.definite(R) ){stop("R must be a positive-definite matrix. Review parameter 'rho'")}
-  
-  
-  
-
-#
-#   out <- N-h
-#   aux_out <- rep(1, out[1])
-#   for(i in 2:H){
-#     zero <- rep(0, sum(out))
-#     one <- rep(1, out[i])
-#     aux_out <- c(aux_out, zero, one)
-#   }
-#   x_nots <- matrix(aux_out,nrow = sum(out),ncol=H)
-
-
-  # Vs <- diag(h[1])*(sigma[1])^2
-  # for (i in 2:H) {
-  #   V <- diag(h[i])*(sigma[i])^2
-  #   Vs <- bdiag(Vs,V)
-  # }
-  # Vs <- as.matrix(Vs)
-
-
-
-
-
   return(BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots))
 
 
