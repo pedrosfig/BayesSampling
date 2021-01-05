@@ -46,14 +46,14 @@
 #' @export
 BLE_SRS <- function(ys, N, m=NULL, v=NULL, sigma=NULL, n=NULL){
 
-  war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
-  war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
-  war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
-  war_4 <- "sample mean informed instead of sample observations, parameters 'n' and 'sigma' will be necessary"
+  mes_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
+  mes_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
+  mes_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
+  mes_4 <- "sample mean informed instead of sample observations, parameters 'n' and 'sigma' will be necessary"
 
 
   if(length(ys)==1){
-    warning(war_4)
+    message(mes_4)
     if( (is.null(sigma)) | is.null(n) ){
       stop("ys of length 1 requires not null parameters 'sigma' and 'n'")
     }
@@ -62,17 +62,17 @@ BLE_SRS <- function(ys, N, m=NULL, v=NULL, sigma=NULL, n=NULL){
 
 
   if (is.null(m)){
-    warning(war_1)
+    message(mes_1)
     m <- mean(ys)
   }
 
   if(is.null(sigma)){
-    warning(war_2)
+    message(mes_2)
     sigma <- sqrt(var(ys))
   }
 
   if(is.null(v)){
-    warning(war_3)
+    message(mes_3)
     v <- 10^100 * mean(ys)}
 
   if(v < sigma^2){
@@ -146,10 +146,10 @@ BLE_SRS <- function(ys, N, m=NULL, v=NULL, sigma=NULL, n=NULL){
 #' @export
 BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
 
-  war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
-  war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
-  war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
-  war_4 <- "sample means informed instead of sample observations, parameter 'sigma' will be necessary"
+  mes_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
+  mes_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
+  mes_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
+  mes_4 <- "sample means informed instead of sample observations, parameter 'sigma' will be necessary"
 
 
   H <- length(h)
@@ -161,7 +161,7 @@ BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
       stop("length of 'ys' incompatable with 'h'")
     }
     else{                # length(ys)==length(h)
-      warning(war_4)
+      message(mes_4)
       if(is.null(sigma)){
         stop("not null parameter 'sigma' required")
       }
@@ -177,7 +177,7 @@ BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
 
 
   if (is.null(m)){
-    warning(war_1)
+    message(mes_1)
     m <- c(mean(ys[1:h[1]]))
     for(i in 2:H-1){
       M <- mean(ys[marker[i]:(marker[i+1] - 1)])
@@ -188,7 +188,7 @@ BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
   }
 
   if(is.null(sigma)){
-    warning(war_2)
+    message(mes_2)
     s <- c(var(ys[1:h[1]]))
     for(i in 2:H-1){
       S <- var(ys[marker[i]:(marker[i+1] - 1)])
@@ -200,7 +200,7 @@ BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
   }
 
   if(is.null(v)){
-    warning(war_3)
+    message(mes_3)
     v <- c()
     for(i in 1:H){
       V <- 10^100 * m[i]
@@ -313,10 +313,10 @@ BLE_SSRS <- function(ys, h, N, m=NULL, v=NULL, sigma=NULL){
 #' @export
 BLE_Ratio <- function(ys, xs, x_nots, m=NULL, v=NULL, sigma=NULL, n=NULL){
 
-  war_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
-  war_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
-  war_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
-  war_4 <- "sample means informed instead of sample observations, parameters 'n' and 'sigma' will be necessary"
+  mes_1 <- "parameter 'm' (prior mean) not informed, sample mean used in estimations"
+  mes_2 <- "parameter 'sigma' (prior variability) not informed, sample variance used in estimations"
+  mes_3 <- "parameter 'v' (prior variance of an element) not informed, (10^100 * mean(ys)) used in estimations (non-informative prior)"
+  mes_4 <- "sample means informed instead of sample observations, parameters 'n' and 'sigma' will be necessary"
 
 
   if(length(ys) != length(xs)){
@@ -325,7 +325,7 @@ BLE_Ratio <- function(ys, xs, x_nots, m=NULL, v=NULL, sigma=NULL, n=NULL){
 
 
   if(length(ys)==1){
-    warning(war_4)
+    message(mes_4)
     if( (is.null(sigma)) | is.null(n) ){
       stop("ys of length 1 requires not null parameters 'sigma' and 'n'")
     }
@@ -338,17 +338,17 @@ BLE_Ratio <- function(ys, xs, x_nots, m=NULL, v=NULL, sigma=NULL, n=NULL){
 
 
   if (is.null(m)){
-    warning(war_1)
+    message(mes_1)
     m <- mean(ys)/mean(xs)
   }
 
   if(is.null(sigma)){
-    warning(war_2)
+    message(mes_2)
     sigma <- sqrt(var(z))
   }
 
   if(is.null(v)){
-    warning(war_3)
+    message(mes_3)
     v <- 10^100 * mean(ys)}
 
   if(v < sigma^2){
