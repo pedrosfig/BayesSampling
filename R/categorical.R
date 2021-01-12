@@ -33,20 +33,28 @@
 #' @export
 BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
 
-  mes_1 <- "parameter 'm' (prior proportions) not informed, sample proprotions used in estimations"
+  mes_1 <- "parameter 'm' (prior proportions) not informed, sample proportions used in estimations"
    
-
   k <- length(ys)
   if(k == 1){stop("only 1 category defined")}
   
   if(prod(ys >= 0) != 1){stop("all sample proportions must be non-negative numbers")}
   if(sum(ys) != 1){stop("sum of sample proportions should be 1")}
   
+  if(is.null(m)){
+    message(mes_1)
+    m <- ys
+  }
+  
+  if(prod(m >= 0) != 1){stop("all prior proportions must be non-negative numbers")}
+  if(sum(m) != 1){stop("sum of prior proportions should be 1")}
+  
+  #if(is.null(rho)){stop("parameter 'rho' not informed")}
+  if( ! is.symmetric.matrix(rho) ){stop("rho must be a symmetric square matrix")}
+  
+  
   ys <- ys[-k]
   m <- m[-k]
-  
-  
-  if( ! is.symmetric.matrix(rho) ){stop("rho must be a symmetric square matrix")}
   
   
   # Matrix 'm_ij'
@@ -113,7 +121,18 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   
   
   return(BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots))
-
-
-
+  
+  
+  
+  # C_inv <- ginv(R) + ginv(Vs)
+  # C <- ginv(C_inv)
+  # 
+  # beta <- C*(ginv(Vs)*ys + ginv(R)*a)
+  # 
+  # p <- (n*ys + (N-n)*beta)/N
+  # V_p <- (V_nots + C) * ((N-n)/N)^2
+  #  
+  # return(list(est.beta = beta, Vest.beta = C, est.p = p, Vest.p = V_p))
+  
+  
 }
