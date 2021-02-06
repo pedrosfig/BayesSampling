@@ -46,7 +46,7 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
     m <- ys
   }
   
-  if(prod(m >= 0) != 1){stop("all prior proportions must be non-negative numbers")}
+  if(prod(m > 0) != 1){stop("all prior proportions must be positive numbers")}
   if(sum(m) != 1){stop("sum of prior proportions should be 1")}
   
   #if(is.null(rho)){stop("parameter 'rho' not informed")}
@@ -68,7 +68,6 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   }
   
   
-
   a <- m
   v <- m*(1-m)
   c <- m * (diag(m_ij) - m)
@@ -76,7 +75,6 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
 
   xs <- diag(k-1)
   x_nots <- diag(k-1)
-  
   
   
   # Matrix 'R' 
@@ -95,7 +93,6 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   
   if( ! is.symmetric.matrix(R) ){stop("R must be a symmetric matrix. Review parameter 'rho'")}
   if( ! is.positive.definite(R) ){stop("R must be a positive-definite matrix. Review parameter 'rho'")}
-  
   
   
   # Matrix 'Vs'
@@ -118,21 +115,14 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
 
   V_nots <- Vs*n/(N-n)
   
+  C_inv <- ginv(R) + ginv(Vs)
+  C <- ginv(C_inv)
+  Beta <- C%*%(ginv(Vs)%*%ys + ginv(R)%*%a)
   
-  
-  return(BLE_Reg(ys,xs,a,R,Vs,x_nots,V_nots))
-  
-  
-  
-  # C_inv <- ginv(R) + ginv(Vs)
-  # C <- ginv(C_inv)
-  # 
-  # beta <- C*(ginv(Vs)*ys + ginv(R)*a)
-  # 
-  # p <- (n*ys + (N-n)*beta)/N
-  # V_p <- (V_nots + C) * ((N-n)/N)^2
-  #  
-  # return(list(est.beta = beta, Vest.beta = C, est.p = p, Vest.p = V_p))
-  
+  p <- (n*ys + (N-n)*Beta)/N
+  V_p <- (V_nots + C) * ((N-n)/N)^2
+
+  return(list(est.prop = p, Vest.prop = V_p))
   
 }
+
