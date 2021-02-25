@@ -50,8 +50,8 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   if(sum(m) != 1){stop("sum of prior proportions should be 1")}
   
   #if(is.null(rho)){stop("parameter 'rho' not informed")}
-  if( ! is.symmetric.matrix(rho) ){stop("rho must be a symmetric square matrix")}
-  
+  if( ! is.symmetric.matrix(rho) ){stop("'rho' must be a symmetric square matrix")}
+  if( max(abs(rho)) >= 1 ){stop("all value in 'rho' must be between -1 and 1")}
   
   ys <- ys[-k]
   m <- m[-k]
@@ -92,7 +92,7 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   R <- R_d + R_out
   
   if( ! is.symmetric.matrix(R) ){stop("R must be a symmetric matrix. Review parameter 'rho'")}
-  if( ! is.positive.definite(R) ){stop("R must be a positive-definite matrix. Review parameter 'rho'")}
+  if( ! is.positive.definite(R) ){warning("R should be a positive-definite matrix. Possible problem with parameter 'rho'")}
   
   
   # Matrix 'Vs'
@@ -110,7 +110,7 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   Vs <- (1/n)*(Vs_d + Vs_out)
   
   if( ! is.symmetric.matrix(Vs) ){stop("Vs must be a symmetric matrix. Review parameter 'rho'")}
-  if( ! is.positive.definite(Vs) ){stop("Vs must be a positive-definite matrix. Review parameter 'rho'")}
+  if( ! is.positive.definite(Vs) ){stop("Vs should be a positive-definite matrix. Possible problem with parameter 'rho'")}
   
 
   V_nots <- Vs*n/(N-n)
@@ -119,9 +119,20 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   C <- ginv(C_inv)
   Beta <- C%*%(ginv(Vs)%*%ys + ginv(R)%*%a)
   
-  p <- (n*ys + (N-n)*Beta)/N
-  V_p <- (V_nots + C) * ((N-n)/N)^2
-
+  
+  p_aux <- (n*ys + (N-n)*Beta)/N
+  p_k <- 1 - sum(p_aux)
+  p <- c(p_aux,p_k)
+  
+  V_aux <- (V_nots + C) * ((N-n)/N)^2
+  V_k <- sum(V_aux)
+  Cov_k <- c()
+  for (i in 1:k-1) {
+    Cov_k[i] <- -sum(V_aux[i,])
+  }
+  V_p <- rbind(cbind(V_aux, Cov_k[]), c(Cov_k, V_k))
+  
+  
   return(list(est.prop = p, Vest.prop = V_p))
   
 }
