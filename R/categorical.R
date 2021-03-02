@@ -34,24 +34,32 @@
 BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
 
   mes_1 <- "parameter 'm' (prior proportions) not informed, sample proportions used in estimations"
-   
+  mes_2 <- "parameter 'rho' not informed, non informative prior correlation used in estimations"
+  
   k <- length(ys)
-  if(k == 1){stop("only 1 category defined")}
+  if( k == 1 ){stop("only 1 category defined")}
   
-  if(prod(ys >= 0) != 1){stop("all sample proportions must be non-negative numbers")}
-  if(sum(ys) != 1){stop("sum of sample proportions should be 1")}
+  if( prod(ys >= 0) != 1 ){stop("all sample proportions must be non-negative numbers")}
+  if( sum(ys) != 1 ){stop("sum of sample proportions should be 1")}
   
-  if(is.null(m)){
+  if( is.null(m) ){
     message(mes_1)
     m <- ys
   }
   
-  if(prod(m > 0) != 1){stop("all prior proportions must be positive numbers")}
-  if(sum(m) != 1){stop("sum of prior proportions should be 1")}
+  if( length(m) != length(ys) ){stop("length of parameters 'ys' and 'm' must coincide")}
+  if( prod(m > 0) != 1 ){stop("all prior proportions must be positive numbers")}
+  if( sum(m) != 1 ){stop("sum of prior proportions should be 1")}
   
-  #if(is.null(rho)){stop("parameter 'rho' not informed")}
-  if( ! is.symmetric.matrix(rho) ){stop("'rho' must be a symmetric square matrix")}
-  if( max(abs(rho)) >= 1 ){stop("all value in 'rho' must be between -1 and 1")}
+  rho_informed <- 1
+  if( is.null(rho) ){
+    message(mes_2)
+    rho_informed <- 0
+    rho <- diag(x = 1-1e-10, nrow=k)
+    }
+  
+  if( ! is.symmetric.matrix(rho) | dim(rho)[1] < k-1 ){stop("'rho' must be a symmetric square matrix of dimension k")}
+  if( max(abs(rho)) >= 1 ){stop("all values in 'rho' must be between -1 and 1")}
   
   ys <- ys[-k]
   m <- m[-k]
@@ -91,8 +99,10 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   
   R <- R_d + R_out
   
-  if( ! is.symmetric.matrix(R) ){stop("R must be a symmetric matrix. Review parameter 'rho'")}
-  if( ! is.positive.definite(R) ){warning("R should be a positive-definite matrix. Possible problem with parameter 'rho'")}
+  if( rho_informed == 1 ){
+    if( ! is.symmetric.matrix(R) ){stop("R must be a symmetric matrix. Review parameter 'rho'")}
+    if( ! is.positive.definite(R, tol=1e-15) ){warning("R should be a positive-definite matrix. Possible problem with parameter 'rho'")}
+  }
   
   
   # Matrix 'Vs'
@@ -109,8 +119,10 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   
   Vs <- (1/n)*(Vs_d + Vs_out)
   
-  if( ! is.symmetric.matrix(Vs) ){stop("Vs must be a symmetric matrix. Review parameter 'rho'")}
-  if( ! is.positive.definite(Vs) ){stop("Vs should be a positive-definite matrix. Possible problem with parameter 'rho'")}
+  if( rho_informed == 1 ){
+    if( ! is.symmetric.matrix(Vs) ){stop("Vs must be a symmetric matrix. Review parameter 'rho'")}
+    if( ! is.positive.definite(Vs, tol=1e-15) ){warning("Vs should be a positive-definite matrix. Possible problem with parameter 'rho'")}
+  }
   
 
   V_nots <- Vs*n/(N-n)
@@ -133,7 +145,7 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   V_p <- rbind(cbind(V_aux, Cov_k[]), c(Cov_k, V_k))
   
   
-  return(list(est.prop = p, Vest.prop = V_p))
+  return(list(est.prop = p, Vest.prop = V_p, Vs.Matrix = Vs, R.Matrix = R))
   
 }
 
