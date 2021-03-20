@@ -5,36 +5,64 @@
 #' @param ys k-vector of sample proportion for each category.
 #' @param n sample size.
 #' @param N total size of the population.
-#' @param m k-vector with the prior proportion of each strata. If NULL, sample proportion for each strata will be used (non-informative prior).
-#' @param rho matrix with the prior correlation coefficients between two different units within categories. It must be a symmetric square matrix of dimension k.
+#' @param m k-vector with the prior proportion of each strata. If \code{NULL}, sample proportion for each strata will be used (non-informative prior).
+#' @param rho matrix with the prior correlation coefficients between two different units within categories. It must be a symmetric square matrix of dimension k (or k-1). If \code{NULL}, non-informative prior will be used.
 #'
 #' @return A list containing the following components: \itemize{
-#' \item \code{est.beta} - BLE of Beta (BLE for the individuals in each strata)
-#' \item \code{Vest.beta} - Variance associated with the above
-#' \item \code{est.mean} - BLE for each individual not in the sample
-#' \item \code{Vest.mean} - Covariance matrix associated with the above
-#' \item \code{est.tot} - BLE for the total
-#' \item \code{Vest.tot} - Variance associated with the above
+#' \item \code{est.prop} - BLE for the sample proportion of each category
+#' \item \code{Vest.prop} - Variance associated with the above
+#' \item \code{Vs.Matrix} - Vs matrix, as defined by the BLE method (should be a positive-definite matrix)
+#' \item \code{R.Matrix} - R matrix, as defined by the BLE method (should be a positive-definite matrix)
 #' }
 #'
 #' @source \url{https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886}
 #' @references Gonçalves, K.C.M, Moura, F.A.S and  Migon, H.S.(2014). Bayes Linear Estimation for Finite Population with emphasis on categorical data. Survey Methodology, 40, 15-28.
 #'
 #' @examples
-#' ys <- c(2,-1,1.5, 6,10, 8,8)
-#' h <- c(3,2,2)
-#' m <- c(0,9,8)
-#' v <- c(3,8,1)
-#' sigma <- c(1,2,0.5)
-#' N <- c(5,5,3)
+#' # 2 categories
+#' ys <- c(0.2614, 0.7386)
+#' n <- 153
+#' N <- 15288
+#' m <- c(0.7, 0.3)
+#' rho <- matrix(0.1, 1)
 #'
-#' Estimator <- BLE_SSRS(ys,h,N,m,rho)
+#' Estimator <- BLE_Categorical(ys,n,N,m,rho)
 #' Estimator
+#' 
+#' ys <- c(0.2614, 0.7386)
+#' n <- 153
+#' N <- 15288
+#' m <- c(0.7, 0.3)
+#' rho <- matrix(0.5, 1)
+#'
+#' Estimator <- BLE_Categorical(ys,n,N,m,rho)
+#' Estimator
+#' 
+#' 
+#' # 3 categories
+#' ys <- c(0.2, 0.5, 0.3)
+#' n <- 100
+#' N <- 10000
+#' m <- c(0.4, 0.1, 0.5)
+#' mat <- c(0.4, 0.1, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.6)
+#' rho <- matrix(mat, 3, 3)
+#' 
+#' Estimator <- BLE_Categorical(ys,n,N,m,rho)
+#' Estimator
+#' 
+#' ys <- c(0.2, 0.5, 0.3)
+#' n <- 100
+#' N <- 10000
+#' m <- c(0.4, 0.1, 0.5)
+#' 
+#' Estimator <- BLE_Categorical(ys,n,N,m,rho=NULL)
+#' Estimator
+#'
 #' @export
 BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
 
   mes_1 <- "parameter 'm' (prior proportions) not informed, sample proportions used in estimations"
-  mes_2 <- "parameter 'rho' not informed, non informative prior correlation used in estimations"
+  mes_2 <- "parameter 'rho' not informed, non informative prior correlation coefficients used in estimations"
   
   k <- length(ys)
   if( k == 1 ){stop("only 1 category defined")}
@@ -53,8 +81,8 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   
   rho_informed <- 1
   if( is.null(rho) ){
-    message(mes_2)
     rho_informed <- 0
+    message(mes_2)
     rho <- diag(x = 1-1e-10, nrow=k)
     }
   
@@ -138,7 +166,7 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   
   V_aux <- (V_nots + C) * ((N-n)/N)^2
   V_k <- sum(V_aux)
-  Cov_k <- c()
+  Cov_k <- c
   for (i in 1:k-1) {
     Cov_k[i] <- -sum(V_aux[i,])
   }
