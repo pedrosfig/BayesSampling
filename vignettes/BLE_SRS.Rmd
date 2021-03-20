@@ -33,7 +33,7 @@ In a simple model, where there is no auxiliary variable, and a Simple Random Sam
 
 ### Vague Prior Distribuition
 
-Letting $v \to \infty$ and keeping $\sigma^2$ fixed, that is, assuming prior ignorance, the resulting estimator will be the same as the one seen in the disgn-based context for the simple random sampling case.\  
+Letting $v \to \infty$ and keeping $\sigma^2$ fixed, that is, assuming prior ignorance, the resulting estimator will be the same as the one seen in the design-based context for the simple random sampling case.\  
 
 This can be achieved using the _BLE_SRS()_ function by omitting either the prior mean and/or the prior variance, that is:
 
