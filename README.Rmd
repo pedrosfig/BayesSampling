@@ -112,9 +112,9 @@ where $a$ and $f$, respectively, denote mean vectors and $R$, $AQ$ and $Q$ the c
   
 The package contain the main following functions:  
   
-* BLE_Reg() - general function (base for the rest of the functions)
+* BLE_Reg() - general function (base for the rest of the functions, except for the BLE_Categorical())
 * BLE_SRS() - Simple Random Sample case
 * BLE_SSRS() - Stratified Simple Random Sample case
 * BLE_Ratio() - Ratio Estimator case
-
+* BLE_Categorical() - Categorical data case
 
