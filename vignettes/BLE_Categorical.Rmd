@@ -23,7 +23,7 @@ library(BayesSampling)
 
 ### (From Section 4 of the "[Gonçalves, Moura and Migon: Bayes linear estimation for finite population with emphasis on categorical data](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886)") 
 
-BLA BLA ... which receives the following parameters:  
+In a situation where the population can be divided into different and exclusive categories, we can calculate the Bayes Linear Estimator for the proportion of individuals in each category with the _BLE_Categorical()_ function, which receives the following parameters:  
 
 * $y_s$ - $k$-vector of sample proportion for each category;
 * $n$ - sample size;
@@ -32,19 +32,19 @@ BLA BLA ... which receives the following parameters:
 * $rho$ - matrix with the prior correlation coefficients between two different units within categories. It must be a symmetric square matrix of dimension $k$ (or $k-1$). If _NULL_, non-informative prior will be used ($\rho_{ii} \to 1$).
 
 
-### Vague Prior Distribuition
+### Vague Prior Distribution
 
 Letting $\rho_{ii} \to 1$, that is, assuming prior ignorance, the resulting estimator will be the same as the one seen in the design-based context for categorical data.\  
 
 This can be achieved using the _BLE_Categorical()_ function by omitting either the prior proportions and/or the parameter rho, that is:
 
 * $m =$ _NULL_ - sample proportions will be used
-* $rho =$ _NULL_ - $\rho_{ii} \to 1$ and $\rho_{ij} = 0, i \ne j$
+* $rho =$ _NULL_ - $\rho_{ii} \to 1$ and $\rho_{ij} = 0, i \neq j$
 
 
 ### Examples
 
-1. EXPLICAR (ex do artigo - 2 categorias)
+1. Example presented in the mentioned [article](https://www150.statcan.gc.ca/n1/en/catalogue/12-001-X201400111886) (2 categories)
 
 
 ```{r ex 1, message=TRUE, warning=TRUE}
@@ -59,7 +59,7 @@ Estimator$est.prop
 Estimator$Vest.prop
 ```
 
-Mudando a correlação a priori
+Bellow we can see that the greater the correlation coefficient, the closer our estimation will get to the sample proportions.
 
 ```{r ex 1.2, message=TRUE, warning=TRUE}
 ys <- c(0.2614, 0.7386)
@@ -93,7 +93,7 @@ Estimator$Vest.prop
 
 
 
-3. Example from the help page (3 categories), but with no prior correlation coefficients
+3. Example from the help page (3 categories), but with no prior correlation coefficients (non-informative prior)
 
 ```{r ex 3, message=TRUE, warning=TRUE}
 ys <- c(0.2, 0.5, 0.3)

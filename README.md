@@ -165,7 +165,9 @@ and stratified simple random sampling.
 
 The package contain the main following functions:
 
-  - BLE\_Reg() - general function (base for the rest of the functions)
+  - BLE\_Reg() - general function (base for the rest of the functions,
+    except for the BLE\_Categorical())
   - BLE\_SRS() - Simple Random Sample case
   - BLE\_SSRS() - Stratified Simple Random Sample case
   - BLE\_Ratio() - Ratio Estimator case
+  - BLE\_Categorical() - Categorical data case
