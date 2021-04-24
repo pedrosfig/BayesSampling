@@ -46,17 +46,6 @@
 #' m <- c(0.4, 0.1, 0.5)
 #' mat <- c(0.4, 0.1, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.6)
 #' rho <- matrix(mat, 3, 3)
-#' 
-#' Estimator <- BLE_Categorical(ys,n,N,m,rho)
-#' Estimator
-#' 
-#' ys <- c(0.2, 0.5, 0.3)
-#' n <- 100
-#' N <- 10000
-#' m <- c(0.4, 0.1, 0.5)
-#' 
-#' Estimator <- BLE_Categorical(ys,n,N,m,rho=NULL)
-#' Estimator
 #'
 #' @export
 BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
@@ -128,8 +117,8 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   R <- R_d + R_out
   
   if( rho_informed == 1 ){
-    if( ! is.symmetric.matrix(R) ){stop("R must be a symmetric matrix. Review parameter 'rho'")}
-    if( ! is.positive.definite(R, tol=1e-15) ){warning("R should be a positive-definite matrix. Possible problem with parameter 'rho'")}
+    if( ! is.symmetric.matrix(R) ){stop("'R' must be a symmetric matrix. Review parameter 'rho'")}
+    if( ! is.positive.definite(R, tol=1e-15) ){warning("'R' should be a positive-definite matrix. Possible problem with parameter 'rho'")}
   }
   
   
@@ -148,8 +137,8 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   Vs <- (1/n)*(Vs_d + Vs_out)
   
   if( rho_informed == 1 ){
-    if( ! is.symmetric.matrix(Vs) ){stop("Vs must be a symmetric matrix. Review parameter 'rho'")}
-    if( ! is.positive.definite(Vs, tol=1e-15) ){warning("Vs should be a positive-definite matrix. Possible problem with parameter 'rho'")}
+    if( ! is.symmetric.matrix(Vs) ){stop("'Vs' must be a symmetric matrix. Review parameter 'rho'")}
+    if( ! is.positive.definite(Vs, tol=1e-15) ){warning("'Vs' should be a positive-definite matrix. Possible problem with parameter 'rho'")}
   }
   
 
@@ -172,6 +161,7 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   }
   V_p <- rbind(cbind(V_aux, Cov_k[]), c(Cov_k, V_k))
   
+  if( prod(diag(V_p) > 0) != 1 ){warning("'Vest.prop' should have only positive diagonal values. Review prior parameters.")}
   
   return(list(est.prop = p, Vest.prop = V_p, Vs.Matrix = Vs, R.Matrix = R))
   

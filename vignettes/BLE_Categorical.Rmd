@@ -29,17 +29,23 @@ In a situation where the population can be divided into different and exclusive 
 * $n$ - sample size;
 * $N$ - total size of the population;
 * $m$ - $k$-vector with the prior proportion of each strata. If _NULL_, sample proportion for each strata will be used (non-informative prior);
-* $rho$ - matrix with the prior correlation coefficients between two different units within categories. It must be a symmetric square matrix of dimension $k$ (or $k-1$). If _NULL_, non-informative prior will be used ($\rho_{ii} \to 1$).
+* $rho$ - matrix with the prior correlation coefficients between two different units within categories. It must be a symmetric square matrix of dimension $k$ (or $k-1$). If _NULL_, non-informative prior will be used (see below).
 
 
 ### Vague Prior Distribution
 
 Letting $\rho_{ii} \to 1$, that is, assuming prior ignorance, the resulting estimator will be the same as the one seen in the design-based context for categorical data.\  
 
-This can be achieved using the _BLE_Categorical()_ function by omitting either the prior proportions and/or the parameter rho, that is:
+This can be achieved using the _BLE_Categorical()_ function by omitting either the prior proportions and/or the parameter _rho_, that is:
 
 * $m =$ _NULL_ - sample proportions will be used
 * $rho =$ _NULL_ - $\rho_{ii} \to 1$ and $\rho_{ij} = 0, i \neq j$
+
+
+### _R_ and _Vs_ Matrices
+
+If the calculation of matrices _R_ and _Vs_ results in non-positive definite matrices, a warning will be displayed. In general this does not produce incorrect/inconsistent results, however it is suggested to review the correlation coefficients (parameter _rho_).
+
 
 
 ### Examples
@@ -91,11 +97,9 @@ Estimator$est.prop
 Estimator$Vest.prop
 ```
 
+Same example, but with no prior correlation coefficients (non-informative prior)
 
-
-3. Example from the help page (3 categories), but with no prior correlation coefficients (non-informative prior)
-
-```{r ex 3, message=TRUE, warning=TRUE}
+```{r ex 2.2, message=TRUE, warning=TRUE}
 ys <- c(0.2, 0.5, 0.3)
 n <- 100
 N <- 10000
@@ -104,7 +108,6 @@ m <- c(0.4, 0.1, 0.5)
 Estimator <- BLE_Categorical(ys,n,N,m,rho=NULL)
 
 Estimator$est.prop
-Estimator$Vest.prop
 ```
 
 

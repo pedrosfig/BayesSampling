@@ -60,17 +60,6 @@ m <- c(0.4, 0.1, 0.5)
 mat <- c(0.4, 0.1, 0.1, 0.1, 0.2, 0.1, 0.1, 0.1, 0.6)
 rho <- matrix(mat, 3, 3)
 
-Estimator <- BLE_Categorical(ys,n,N,m,rho)
-Estimator
-
-ys <- c(0.2, 0.5, 0.3)
-n <- 100
-N <- 10000
-m <- c(0.4, 0.1, 0.5)
-
-Estimator <- BLE_Categorical(ys,n,N,m,rho=NULL)
-Estimator
-
 }
 \references{
 Gonçalves, K.C.M, Moura, F.A.S and  Migon, H.S.(2014). Bayes Linear Estimation for Finite Population with emphasis on categorical data. Survey Methodology, 40, 15-28.
