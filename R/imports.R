@@ -2,7 +2,7 @@
 ginv <- MASS::ginv
 
 bdiag <- Matrix::bdiag
-Diagonal <- Matrix::Diagonal
+#Diagonal <- Matrix::Diagonal
 
 var <- stats::var
 
