@@ -34,7 +34,7 @@ In a situation where the population can be divided into different and exclusive 
 
 ### Vague Prior Distribution
 
-Letting $\rho_{ii} \to 1$, that is, assuming prior ignorance, the resulting estimator will be the same as the one seen in the design-based context for categorical data.\  
+Letting $\rho_{ii} \to 1$, that is, assuming prior ignorance, the resulting point estimate will be the same as the one seen in the design-based context for categorical data.\  
 
 This can be achieved using the _BLE_Categorical()_ function by omitting either the prior proportions and/or the parameter _rho_, that is:
 
@@ -44,7 +44,7 @@ This can be achieved using the _BLE_Categorical()_ function by omitting either t
 
 ### _R_ and _Vs_ Matrices
 
-If the calculation of matrices _R_ and _Vs_ results in non-positive definite matrices, a warning will be displayed. In general this does not produce incorrect/inconsistent results, however it is suggested to review the correlation coefficients (parameter _rho_).
+If the calculation of matrices _R_ and _Vs_ results in non-positive definite matrices, a warning will be displayed. In general this does not produce incorrect/inconsistent results for the proportion estimate, however it is suggested to review the prior correlation coefficients (parameter _rho_).
 
 
 

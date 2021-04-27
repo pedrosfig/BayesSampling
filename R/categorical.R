@@ -161,7 +161,7 @@ BLE_Categorical <- function(ys, n, N, m=NULL, rho=NULL){
   }
   V_p <- rbind(cbind(V_aux, Cov_k[]), c(Cov_k, V_k))
   
-  if( prod(diag(V_p) > 0) != 1 ){warning("'Vest.prop' should have only positive diagonal values. Review prior parameters.")}
+  if( prod(diag(V_p) > 0) != 1 ){warning("'Vest.prop' should have only positive diagonal values. Review prior specification and verify calculated matrices 'R' and 'Vs'.")}
   
   return(list(est.prop = p, Vest.prop = V_p, Vs.Matrix = Vs, R.Matrix = R))
   
