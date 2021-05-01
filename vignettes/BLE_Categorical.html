@@ -377,7 +377,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <li><span class="math inline">\(y_s\)</span> - <span class="math inline">\(k\)</span>-vector of sample proportion for each category;</li>
 <li><span class="math inline">\(n\)</span> - sample size;</li>
 <li><span class="math inline">\(N\)</span> - total size of the population;</li>
-<li><span class="math inline">\(m\)</span> - <span class="math inline">\(k\)</span>-vector with the prior proportion of each strata. If <em>NULL</em>, sample proportion for each strata will be used (non-informative prior);</li>
+<li><span class="math inline">\(m\)</span> - <span class="math inline">\(k\)</span>-vector with the prior proportion of each category. If <em>NULL</em>, sample proportion for each category will be used (non-informative prior);</li>
 <li><span class="math inline">\(rho\)</span> - matrix with the prior correlation coefficients between two different units within categories. It must be a symmetric square matrix of dimension <span class="math inline">\(k\)</span> (or <span class="math inline">\(k-1\)</span>). If <em>NULL</em>, non-informative prior will be used (see below).</li>
 </ul>
 </div>
@@ -386,13 +386,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>Letting <span class="math inline">\(\rho_{ii} \to 1\)</span>, that is, assuming prior ignorance, the resulting point estimate will be the same as the one seen in the design-based context for categorical data. </p>
 <p>This can be achieved using the <em>BLE_Categorical()</em> function by omitting either the prior proportions and/or the parameter <em>rho</em>, that is:</p>
 <ul>
-<li><span class="math inline">\(m =\)</span> <em>NULL</em> - sample proportions will be used</li>
+<li><span class="math inline">\(m =\)</span> <em>NULL</em> - sample proportions in each category will be used</li>
 <li><span class="math inline">\(rho =\)</span> <em>NULL</em> - <span class="math inline">\(\rho_{ii} \to 1\)</span> and <span class="math inline">\(\rho_{ij} = 0, i \neq j\)</span></li>
 </ul>
 </div>
 <div id="r-and-vs-matrices" class="section level3">
 <h3><em>R</em> and <em>Vs</em> Matrices</h3>
-<p>If the calculation of matrices <em>R</em> and <em>Vs</em> results in non-positive definite matrices, a warning will be displayed. In general this does not produce incorrect/inconsistent results for the proportion estimate, however it is suggested to review the prior correlation coefficients (parameter <em>rho</em>).</p>
+<p>If the calculation of matrices <em>R</em> and <em>Vs</em> results in non-positive definite matrices, a warning will be displayed. In general this does not produce incorrect/ inconsistent results for the proportion estimate but for its associated variance. It is suggested to review the prior correlation coefficients (parameter <em>rho</em>).</p>
 </div>
 <div id="examples" class="section level3">
 <h3>Examples</h3>
@@ -445,7 +445,7 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; [1,]  0.0013711226 -0.0004980297 -0.0008730929</span></span>
 <span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt; [2,] -0.0004980297  0.0006722052 -0.0001741755</span></span>
 <span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt; [3,] -0.0008730929 -0.0001741755  0.0010472684</span></span></code></pre></div>
-<p>Same example, but with no prior correlation coefficients (non-informative prior)</p>
+<p>Same example, but with no prior correlation coefficients informed (non-informative prior)</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>ys &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="fl">0.2</span>, <span class="fl">0.5</span>, <span class="fl">0.3</span>)</span>
 <span id="cb5-2"><a href="#cb5-2"></a>n &lt;-<span class="st"> </span><span class="dv">100</span></span>
 <span id="cb5-3"><a href="#cb5-3"></a>N &lt;-<span class="st"> </span><span class="dv">10000</span></span>

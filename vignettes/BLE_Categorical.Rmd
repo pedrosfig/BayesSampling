@@ -28,7 +28,7 @@ In a situation where the population can be divided into different and exclusive 
 * $y_s$ - $k$-vector of sample proportion for each category;
 * $n$ - sample size;
 * $N$ - total size of the population;
-* $m$ - $k$-vector with the prior proportion of each strata. If _NULL_, sample proportion for each strata will be used (non-informative prior);
+* $m$ - $k$-vector with the prior proportion of each category. If _NULL_, sample proportion for each category will be used (non-informative prior);
 * $rho$ - matrix with the prior correlation coefficients between two different units within categories. It must be a symmetric square matrix of dimension $k$ (or $k-1$). If _NULL_, non-informative prior will be used (see below).
 
 
@@ -38,13 +38,13 @@ Letting $\rho_{ii} \to 1$, that is, assuming prior ignorance, the resulting poin
 
 This can be achieved using the _BLE_Categorical()_ function by omitting either the prior proportions and/or the parameter _rho_, that is:
 
-* $m =$ _NULL_ - sample proportions will be used
+* $m =$ _NULL_ - sample proportions in each category will be used
 * $rho =$ _NULL_ - $\rho_{ii} \to 1$ and $\rho_{ij} = 0, i \neq j$
 
 
 ### _R_ and _Vs_ Matrices
 
-If the calculation of matrices _R_ and _Vs_ results in non-positive definite matrices, a warning will be displayed. In general this does not produce incorrect/inconsistent results for the proportion estimate, however it is suggested to review the prior correlation coefficients (parameter _rho_).
+If the calculation of matrices _R_ and _Vs_ results in non-positive definite matrices, a warning will be displayed. In general this does not produce incorrect/ inconsistent results for the proportion estimate but for its associated variance. It is suggested to review the prior correlation coefficients (parameter _rho_).
 
 
 
@@ -97,7 +97,7 @@ Estimator$est.prop
 Estimator$Vest.prop
 ```
 
-Same example, but with no prior correlation coefficients (non-informative prior)
+Same example, but with no prior correlation coefficients informed (non-informative prior)
 
 ```{r ex 2.2, message=TRUE, warning=TRUE}
 ys <- c(0.2, 0.5, 0.3)
